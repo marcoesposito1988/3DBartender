@@ -3,42 +3,43 @@ package de.tum.in.far.threedui.bartender;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 public class RecipeFactory {
 	
-	public RecipeFactory(String path){
+	List<Recipe> recepies = new ArrayList<Recipe>();
+	
+//  TODO loading recipes from an XML file 	
+//	public RecipeFactory(String path){
+//		loadRecipes(path);
+//	}
+	
+	public RecipeFactory() {
+		loadRecipes();
+	}
+	
+	public void loadRecipes(){
 		
-		List<Recipe> recepies = new ArrayList<Recipe>(); //???
+		//Vodka Bull
+	
+		Recipe VodkaBull = new Recipe("VodkaBull");
+		VodkaBull.addIngredient("Vodka");
+		VodkaBull.addIngredient("RedBull");
+		recepies.add(VodkaBull);
 		
-		public void loadRecepies(){
-			
-			//Vodka Bull
+		//Gin Tonic
 		
-			VodkaBull=new Recepy();
-			VodkaBull.addincredients("Vodka");
-			VodkaBull.addincredients("RedBull");
-			recepies.add(VodkaBull);
-			
-			//Gin Tonic
-			
-			GinTonic=new Recepy();
-			GinTonic.addincredients("Gin");
-			GinTonic.addincredients("Tonic");
-			recepies.add(GinTonic);
+		Recipe GinTonic = new Recipe("GinTonic");
+		GinTonic.addIngredient("Gin");
+		GinTonic.addIngredient("Tonic");
+		recepies.add(GinTonic);
+	
+	}
+	
+	public Recipe getRandomRecipe() {
+		// TODO Anke: returns a random recipe from the list
 		
-		}
-		
-		public void RandomRecepies() {
-		
-			
-			
-		}
-		
-		public String getRecepyNames(String RecepyName){
-			
-		}
-		
+	}
+	
+	public String[] getRecepyNames() {
+		// TODO Anke: returns a string array with the name of all recipes
 	}
 }

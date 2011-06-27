@@ -2,27 +2,33 @@ package de.tum.in.far.threedui.bartender;
 
 public class Recipe {
 	
-	//We could have each tree as a tree and seperate between 
-	// addincredients: directly
-	// addmortel: take a new layer
+	public enum Status { COMPLETE, INCOMPLETE, WRONG };
 	
-	public Recipe(String Incredients, String name) {
-		
-		public void verify(String solution) {
-			//TO DO verify
-			
-		}
-		
-		public void addincredients(String id) {
-			// TO DO tree
-			
-		
-		}
-		public void addmortel(String id) {
-		
-		}
+	//We could have each tree as a tree and separate between 
+	// addIngredients: directly
+	// addMuddler: take a new layer
+	
+	// M: I will think about how to handle this, I'll let you know
+	
+	public Recipe(String name) {
+		// TODO Anke: sets name, initializes ingredients list as an empty list
 		
 		
+		
+	}
+	
+	public Status verify(Recipe solution) {
+		//TODO Anke: compares contents of "solution" with its own, returns a value from Status
+		
+	}
+	
+	public void addIngredient(String id) {
+		// TODO tree
+		
+	
+	}
+	public void addMuddler(String id) {
+	
 	}
 
 }

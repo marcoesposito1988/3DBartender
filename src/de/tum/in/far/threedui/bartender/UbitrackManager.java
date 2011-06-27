@@ -10,6 +10,8 @@ public class UbitrackManager {
 	
 	private ImageReceiver imageReceiver;
 	
+	static ModelFactory modelFactory = new ModelFactory(); 
+	
 	public UbitrackManager() {
 		ubitrackFacade = new UbitrackFacade();
 		viewer = new Viewer(appName, ubitrackFacade);
@@ -31,5 +33,13 @@ public class UbitrackManager {
 	
 	public void addObjectToViewer(BranchGroup obj) {
 		viewer.addObject(obj);
+	}
+	
+	public boolean linkReceiverToMarker(PoseReceiver rec, String markerId) {
+		return ubitrackFacade.setPoseCallback("posesink", rec);
+	}
+	
+	public ModelObject loadModel(String fileName) {
+		return modelFactory.loadModel(fileName);
 	}
 }
