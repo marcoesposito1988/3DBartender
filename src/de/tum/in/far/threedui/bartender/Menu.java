@@ -8,7 +8,7 @@ import javax.media.j3d.TransformGroup;
 
 public class Menu extends TransformableObject {
 	
-	public static ModelFactory modelFactory;
+	//public static ModelFactory modelFactory;
 	
 	private List<MenuItem> menuItems = new ArrayList<MenuItem>();
 

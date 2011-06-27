@@ -1,6 +1,5 @@
 package de.tum.in.far.threedui.bartender;
 
-import javax.media.j3d.Text3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Vector3d;
@@ -77,7 +76,7 @@ public class MenuItem extends TransformableObject {
 	public static void main(String[] args) {
 		TestViewer tv = new TestViewer();
 		tv.initializeJava3D();
-		MenuItem mi = new MenuItem("Sheep","Pecora",tv.loadModel("Sheep.wrl"));
+		MenuItem mi = new MenuItem("Sheep","Dangling sheep",tv.loadModel("Sheep.wrl"));
 		Transform3D myt3d = new Transform3D(); 
 		mi.getTransformGroup().getTransform(myt3d);
 		myt3d.setScale(3);

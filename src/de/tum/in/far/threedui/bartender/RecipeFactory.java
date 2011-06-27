@@ -1,14 +1,16 @@
 package de.tum.in.far.threedui.bartender;
 
-import java.awt.List;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
-public class RecepyFactory {
+
+public class RecipeFactory {
 	
-	public RecepyFactory(String path){
+	public RecipeFactory(String path){
 		
-		List<Recepy> recepies= new List(); //???
+		List<Recipe> recepies = new ArrayList<Recipe>(); //???
 		
 		public void loadRecepies(){
 			
