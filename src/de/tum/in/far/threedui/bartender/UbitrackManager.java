@@ -1,6 +1,7 @@
 package de.tum.in.far.threedui.bartender;
 
 import javax.media.j3d.BranchGroup;
+import javax.media.j3d.TransformGroup;
 
 public class UbitrackManager {
 	private String appName = "3D Bartender";
@@ -9,8 +10,6 @@ public class UbitrackManager {
 	private Viewer viewer;
 	
 	private ImageReceiver imageReceiver;
-	
-	static ModelFactory modelFactory = new ModelFactory(); 
 	
 	public UbitrackManager() {
 		ubitrackFacade = new UbitrackFacade();
@@ -39,7 +38,28 @@ public class UbitrackManager {
 		return ubitrackFacade.setPoseCallback("posesink", rec);
 	}
 	
-	public ModelObject loadModel(String fileName) {
-		return modelFactory.loadModel(fileName);
+	public static void main(String[] args) {
+		UbitrackManager um = new UbitrackManager();
+		
+		PoseReceiver myposereceiver = new PoseReceiver();
+		if (!um.linkReceiverToMarker(myposereceiver, "posesink"))
+			System.out.println("Error: could not link receiver to marker");
+		
+		BranchGroup mygroup = new BranchGroup();
+		TransformGroup mytransfgroup = new TransformGroup();
+		mytransfgroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		mytransfgroup.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		mytransfgroup.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		mygroup.addChild(mytransfgroup);
+		
+		ModelObject sheep = ModelFactory.loadVRMLModel("Sheep.wrl");
+		mytransfgroup.addChild(sheep);
+		
+		myposereceiver.setTransformGroup(mytransfgroup);
+		
+		um.addObjectToViewer(mygroup);
+		
+		um.startTracking();
 	}
+	
 }

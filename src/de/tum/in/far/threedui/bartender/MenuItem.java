@@ -1,5 +1,7 @@
 package de.tum.in.far.threedui.bartender;
 
+import java.io.File;
+
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Vector3d;
@@ -25,17 +27,23 @@ public class MenuItem extends TransformableObject {
 		this.name = name;
 		setModel(model);
 		setLabel(labelText);
-		addChild(globalGroup);
+		transGroup.addChild(globalGroup);
 	}
 	
 	public void setModel(ModelObject model) {
 		this.model = model;
-		this.globalGroup.addChild(model);
+		modelGroup.addChild(model);
+		globalGroup.addChild(modelGroup);
 	}
 	
 	public void setModelHeight(double height) {
-		this.modelPosition.setTranslation(new Vector3d(0,0,height/2));
-		this.modelGroup.setTransform(this.modelPosition);
+		modelPosition.setTranslation(new Vector3d(0,0,height/2));
+		modelGroup.setTransform(this.modelPosition);
+	}
+	
+	public void setModelScaling(double factor) {
+		modelPosition.setScale(factor);
+		modelGroup.setTransform(modelPosition);
 	}
 	
 	public void setLabel(String labelText) {
@@ -49,7 +57,7 @@ public class MenuItem extends TransformableObject {
 		setLabelScaling(0.01);
 		setLabelBottom(0.06);
 		labelGroup.addChild(label);
-		addChild(labelGroup);
+		transGroup.addChild(labelGroup);
 	}
 	
 	public void setLabelBottom (double height) {
@@ -67,20 +75,12 @@ public class MenuItem extends TransformableObject {
 		return this.name;
 	}
 	
-	public void setup() {
-
-		modelGroup.addChild(model);
-		globalGroup.addChild(modelGroup);
-	}
-	
 	public static void main(String[] args) {
 		TestViewer tv = new TestViewer();
 		tv.initializeJava3D();
-		MenuItem mi = new MenuItem("Sheep","Dangling sheep",tv.loadModel("Sheep.wrl"));
-		Transform3D myt3d = new Transform3D(); 
-		mi.getTransformGroup().getTransform(myt3d);
-		myt3d.setScale(3);
-		mi.getTransformGroup().setTransform(myt3d);
+		MenuItem mi = new MenuItem("Glass","Cocktail Glass",ModelFactory.loadObjModel("misc" + File.separator + "Bottles" + File.separator + "bottles.obj"));
+		mi.setModelScaling(0.18);
+		//mi.setLabelBottom(1);
 		tv.addObject(mi);
 		tv.addCameraDisplacement(new Vector3d(0,0,+0.5));
 	}
