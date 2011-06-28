@@ -138,32 +138,6 @@ public class TestViewer {
 
 
 	}
-	
-	public ModelObject loadModel(String path) {
-		VrmlLoader loader = new VrmlLoader();
-		Scene myScene = null;
-		try {
-			myScene = loader.load( "models" + File.separator + path);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IncorrectFormatException e) {
-			e.printStackTrace();
-		} catch (ParsingErrorException e) {
-			e.printStackTrace();
-		}
-
-		BranchGroup bg = new BranchGroup();
-		TransformGroup offset = new TransformGroup();
-		Transform3D t3d = new Transform3D();
-
-		offset.setTransform(t3d);
-		bg.addChild(offset);
-		offset.addChild(myScene.getSceneGroup());
-		
-		ModelObject model = new ModelObject(bg);
-		return model;
-	}
-
 
 	public static final String EXERCISE = "Exercise 1 Solution";
 	private Viewer viewer;
