@@ -3,7 +3,6 @@ package de.tum.in.far.threedui.bartender;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Vector3d;
@@ -35,7 +34,7 @@ public class Menu extends TransformableObject {
 		menuItems.add(newMenuItem);
 		menuItemsGroup.addChild(newMenuItem);
 	}
-	
+
 	public void placeMenuItems(double gap) {
 		if (menuItems.size() == 1)
 			return;
