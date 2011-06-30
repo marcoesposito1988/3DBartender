@@ -3,6 +3,8 @@ package de.tum.in.far.threedui.bartender;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.TransformGroup;
 
+import de.tum.in.far.threedui.bartender.PoseReceiver;
+
 public class UbitrackManager {
 	private String appName = "3D Bartender";
 	
@@ -10,12 +12,27 @@ public class UbitrackManager {
 	private Viewer viewer;
 	
 	private ImageReceiver imageReceiver;
+
+	private de.tum.in.far.threedui.bartender.PoseReceiver pointerPoseReceiver;
+
+	
+
+	private de.tum.in.far.threedui.bartender.ArrowObject arrowObject;
+	
 	
 	public UbitrackManager() {
 		ubitrackFacade = new UbitrackFacade();
 		viewer = new Viewer(appName, ubitrackFacade);
 		
 		ubitrackFacade.initUbitrack();
+		
+		pointerPoseReceiver = new PoseReceiver();
+		if (!ubitrackFacade.setPoseCallback("posesink2", pointerPoseReceiver)) {
+			return;
+		}
+		
+		
+		
 		imageReceiver = new ImageReceiver();
 		if (!ubitrackFacade.setImageCallback("imgsink", imageReceiver)) {
 			return;
@@ -24,6 +41,8 @@ public class UbitrackManager {
 		BackgroundObject backgroundObject = new BackgroundObject();
 		viewer.addObject(backgroundObject);
 		imageReceiver.setBackground(backgroundObject.getBackground());
+		
+		//pointerPoseReceiver.setTransformGroup(arrowObject.getTransformGroup());
 	}
 	
 	public void startTracking() {
@@ -56,6 +75,10 @@ public class UbitrackManager {
 		mytransfgroup.addChild(sheep);
 		
 		myposereceiver.setTransformGroup(mytransfgroup);
+		
+		
+		
+		
 		
 		um.addObjectToViewer(mygroup);
 		
