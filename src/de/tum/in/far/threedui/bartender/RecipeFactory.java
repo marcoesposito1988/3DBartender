@@ -39,7 +39,7 @@ public class RecipeFactory {
 		
 	}
 	
-	public String[] getRecepyNames() {
+	public String[] getRecipesNames() {
 		// TODO Anke: returns a string array with the name of all recipes
 	}
 }

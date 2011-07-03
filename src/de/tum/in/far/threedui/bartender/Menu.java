@@ -9,15 +9,31 @@ import javax.vecmath.Vector3d;
 
 public class Menu extends TransformableObject {
 	
-	private List<MenuItem> menuItems = new ArrayList<MenuItem>();
+	public static final double DEFAULT_GAP = 0.15;
+	
+	protected List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
-	private TransformGroup menuItemsGroup = new TransformGroup();
+	protected TransformGroup menuItemsGroup = new TransformGroup();
 	
-	private PoseReceiver poseReceiver = new PoseReceiver();
+	protected PoseReceiver poseReceiver = new PoseReceiver();
 	
-	private Transform3D position = new Transform3D();
+	protected Transform3D position = new Transform3D();
+	
+	protected MenuData menuData;
 	
 	public Menu() {
+		prepareGeometry();
+		menuData = new MenuData();
+		createMenuItems();
+		placeMenuItems(DEFAULT_GAP);
+	}
+	
+//	public Menu(String dataFileName) {
+//		prepareGeometry();
+//		menuData = new MenuData(dataFileName);
+//	}
+	
+	private void prepareGeometry() {
 		position.rotX(Math.PI/2);
 		position.setTranslation(new Vector3d(0,0,0.025));
 		menuItemsGroup.setTransform(position);
@@ -29,10 +45,14 @@ public class Menu extends TransformableObject {
 		poseReceiver.setTransformGroup(transGroup);
 	}
 	
-	public void createMenuItem(String name, String labelText, ModelObject model) {
+	private void createMenuItem(String name, String labelText, ModelObject model) {
 		MenuItem newMenuItem = new MenuItem(name,labelText,model);
 		menuItems.add(newMenuItem);
 		menuItemsGroup.addChild(newMenuItem);
+	}
+	
+	public void createMenuItems() {
+		menuData.menuData.
 	}
 
 	public void placeMenuItems(double gap) {
@@ -58,7 +78,7 @@ public class Menu extends TransformableObject {
 		m.createMenuItem("NonAlcoholics","Non Alcoholics",ModelFactory.loadVRMLModel("Sheep.wrl"));
 		m.createMenuItem("Tools","Tools",ModelFactory.loadVRMLModel("Sheep.wrl"));
 		m.createMenuItem("Ice","Ice",ModelFactory.loadVRMLModel("Sheep.wrl"));
-		m.placeMenuItems(0.15);
+		m.placeMenuItems(Menu.DEFAULT_GAP);
 		if (!um.linkReceiverToMarker(m.getPoseReceiver(), "posesink"))
 			System.out.println("Error: could not link receiver to marker");	
 		

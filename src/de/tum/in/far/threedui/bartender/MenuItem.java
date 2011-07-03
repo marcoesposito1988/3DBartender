@@ -84,10 +84,11 @@ public class MenuItem extends TransformableObject {
 	public static void main(String[] args) {
 		TestViewer tv = new TestViewer();
 		tv.initializeJava3D();
-		MenuItem mi = new MenuItem("Glass","Cocktail Glass",ModelFactory.loadObjModel("misc" + File.separator + "Bottles" + File.separator + "bottles.obj"));
-		mi.setModelScaling(0.18);
+//		MenuItem mi = new MenuItem("Glass","Cocktail Glass",ModelFactory.loadVRMLModel("Sheep.wrl"));
+//		mi.setModelScaling(0.18);
 		//mi.setLabelBottom(1);
-		tv.addObject(mi);
+		ArrowObject ao = new ArrowObject();
+		tv.addObject(ao);
 		tv.addCameraDisplacement(new Vector3d(0,0,+0.5));
 	}
 

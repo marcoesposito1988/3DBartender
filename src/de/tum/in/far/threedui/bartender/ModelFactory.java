@@ -6,8 +6,12 @@ import java.io.FileNotFoundException;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.TransformGroup;
 
+import lm.blender.loader.BlenderLoader;
+
+import org.jdesktop.j3d.loaders.collada.Collada14Loader;
 import org.jdesktop.j3d.loaders.vrml97.VrmlLoader;
 
+import com.microcrowd.loader.java3d.max3ds.Loader3DS;
 import com.sun.j3d.loaders.IncorrectFormatException;
 import com.sun.j3d.loaders.ParsingErrorException;
 import com.sun.j3d.loaders.Scene;
@@ -38,6 +42,69 @@ public class ModelFactory {
 	
 	public static ModelObject loadObjModel(String modelFileName) {
 		ObjectFile loader = new ObjectFile();
+		Scene myScene = null;
+		try {
+			myScene = loader.load( "models" + File.separator + modelFileName);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IncorrectFormatException e) {
+			e.printStackTrace();
+		} catch (ParsingErrorException e) {
+			e.printStackTrace();
+		}
+
+		BranchGroup bg = new BranchGroup();
+		TransformGroup offset = new TransformGroup();
+		bg.addChild(offset);
+		offset.addChild(myScene.getSceneGroup());
+		
+		return new ModelObject(bg);
+	}
+	
+	public static ModelObject load3DSModel(String modelFileName) {
+		Loader3DS loader = new Loader3DS();
+		Scene myScene = null;
+		try {
+			myScene = loader.load( "models" + File.separator + modelFileName);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IncorrectFormatException e) {
+			e.printStackTrace();
+		} catch (ParsingErrorException e) {
+			e.printStackTrace();
+		}
+
+		BranchGroup bg = new BranchGroup();
+		TransformGroup offset = new TransformGroup();
+		bg.addChild(offset);
+		offset.addChild(myScene.getSceneGroup());
+		
+		return new ModelObject(bg);
+	}
+	
+	public static ModelObject loadBlendModel(String modelFileName) {
+		BlenderLoader loader = new BlenderLoader();
+		Scene myScene = null;
+		try {
+			myScene = loader.load( "models" + File.separator + modelFileName);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IncorrectFormatException e) {
+			e.printStackTrace();
+		} catch (ParsingErrorException e) {
+			e.printStackTrace();
+		}
+
+		BranchGroup bg = new BranchGroup();
+		TransformGroup offset = new TransformGroup();
+		bg.addChild(offset);
+		offset.addChild(myScene.getSceneGroup());
+		
+		return new ModelObject(bg);
+	}
+	
+	public static ModelObject loadColladaModel(String modelFileName) {
+		Collada14Loader loader = new Collada14Loader();
 		Scene myScene = null;
 		try {
 			myScene = loader.load( "models" + File.separator + modelFileName);

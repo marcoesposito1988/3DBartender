@@ -12,27 +12,19 @@ public class UbitrackManager {
 	private Viewer viewer;
 	
 	private ImageReceiver imageReceiver;
-
-	private de.tum.in.far.threedui.bartender.PoseReceiver pointerPoseReceiver;
-
-	
-
-	private de.tum.in.far.threedui.bartender.ArrowObject arrowObject;
-	
 	
 	public UbitrackManager() {
 		ubitrackFacade = new UbitrackFacade();
 		viewer = new Viewer(appName, ubitrackFacade);
 		
+	}
+	
+	public void prepareTracking() {
 		ubitrackFacade.initUbitrack();
-		
-		pointerPoseReceiver = new PoseReceiver();
-		if (!ubitrackFacade.setPoseCallback("posesink2", pointerPoseReceiver)) {
-			return;
-		}
-		
-		
-		
+	}
+	
+	public void startTracking() {
+		ubitrackFacade.startDataflow();
 		imageReceiver = new ImageReceiver();
 		if (!ubitrackFacade.setImageCallback("imgsink", imageReceiver)) {
 			return;
@@ -41,48 +33,42 @@ public class UbitrackManager {
 		BackgroundObject backgroundObject = new BackgroundObject();
 		viewer.addObject(backgroundObject);
 		imageReceiver.setBackground(backgroundObject.getBackground());
-		
-		//pointerPoseReceiver.setTransformGroup(arrowObject.getTransformGroup());
-	}
-	
-	public void startTracking() {
-		ubitrackFacade.startDataflow();
+
 	}
 	
 	public void addObjectToViewer(BranchGroup obj) {
 		viewer.addObject(obj);
 	}
 	
-	public boolean linkReceiverToMarker(PoseReceiver rec, String markerId) {
-		return ubitrackFacade.setPoseCallback("posesink", rec);
+	public PoseReceiver getReceiverForMarker(String markerId) {
+		PoseReceiver ret = new PoseReceiver();
+		ubitrackFacade.setPoseCallback(markerId, ret);
+		return ret;
 	}
 	
 	public static void main(String[] args) {
-		UbitrackManager um = new UbitrackManager();
-		
-		PoseReceiver myposereceiver = new PoseReceiver();
-		if (!um.linkReceiverToMarker(myposereceiver, "posesink"))
-			System.out.println("Error: could not link receiver to marker");
-		
-		BranchGroup mygroup = new BranchGroup();
-		TransformGroup mytransfgroup = new TransformGroup();
-		mytransfgroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		mytransfgroup.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
-		mytransfgroup.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
-		mygroup.addChild(mytransfgroup);
-		
+		// FIRST: create stuff
+		Pointer p = new Pointer();
+		p.setArrow(new ArrowObject());
 		ModelObject sheep = ModelFactory.loadVRMLModel("Sheep.wrl");
-		mytransfgroup.addChild(sheep);
 		
-		myposereceiver.setTransformGroup(mytransfgroup);
-		
-		
-		
-		
-		
-		um.addObjectToViewer(mygroup);
-		
+		// SECOND: create UbitrackManager, call prepareTracking()
+		UbitrackManager um = new UbitrackManager();
+		um.prepareTracking();
+		// THIRD: get all the PoseReceivers you need
+		PoseReceiver pr = um.getReceiverForMarker("posesink");
+		PoseReceiver pr2 = um.getReceiverForMarker("posesink2");
+		// FOURTH: startTracking();
 		um.startTracking();
+		
+		// FIFTH: link the PoseReceivers to the TransformGroups
+		pr.setTransformGroup(p.transGroup);
+		pr2.setTransformGroup(sheep.transGroup);
+		// SIXTH: add objects to the viewer
+		um.addObjectToViewer(p);
+		um.addObjectToViewer(sheep);
+		// SEVENTH: in order to test a main, edit TestConfig.launch
+
 	}
 	
 }

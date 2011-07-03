@@ -38,7 +38,7 @@ public class ArrowObject extends TransformableObject {
 		
 		Cylinder arrowReleased = new Cylinder(0.005f, HEIGHT, blueAppearance);
 		Cylinder arrowPressed = new Cylinder(0.005f, HEIGHT, redAppearance);
-		Cone co = new Cone(0.01f, 0.02f, redAppearance);
+		Cone co = new Cone(0.01f, 0.02f, blueAppearance);
 		Cone co1 = new Cone(0.01f, 0.02f, redAppearance);
 		TransformGroup coneGroup = new TransformGroup();
 		TransformGroup coneGroup1 = new TransformGroup();
