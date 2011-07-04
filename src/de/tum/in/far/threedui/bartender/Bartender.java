@@ -4,12 +4,29 @@ public class Bartender {
 	
 	UbitrackManager ubitrackManager;
 	
+	Menu menu = new Menu();
+	Pointer pointer = new Pointer();
+	
 	public Bartender() {
 		ubitrackManager = new UbitrackManager();
 	}
 	
 	public void start() {
+		ubitrackManager = new UbitrackManager();
+
+		pointer.setArrow(new ArrowObject());
+		
+		ubitrackManager.prepareTracking();
+
+		PoseReceiver pr = ubitrackManager.getReceiverForMarker("posesink");
+		PoseReceiver pr2 = ubitrackManager.getReceiverForMarker("posesink2");
+
 		ubitrackManager.startTracking();
+		ubitrackManager.addObjectToViewer(pointer);
+		ubitrackManager.addObjectToViewer(menu);
+		
+		pointer.setPoseReceiver(pr);
+		menu.setPoseReceiver(pr2);
 	}
 
 	/**

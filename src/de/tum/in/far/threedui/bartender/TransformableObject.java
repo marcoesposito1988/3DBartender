@@ -7,6 +7,8 @@ public class TransformableObject extends BranchGroup {
 
 	protected final TransformGroup transGroup;
 	
+	protected PoseReceiver poseReceiver;
+	
 	public TransformableObject() {
 		transGroup = new TransformGroup();
 		transGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
@@ -17,5 +19,10 @@ public class TransformableObject extends BranchGroup {
 	
 	public TransformGroup getTransformGroup() {
 		return transGroup;
+	}
+	
+	public void setPoseReceiver(PoseReceiver pr) {
+		poseReceiver = pr;
+		pr.setTransformGroup(transGroup);
 	}
 }

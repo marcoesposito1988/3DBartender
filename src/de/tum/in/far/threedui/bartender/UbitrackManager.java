@@ -24,7 +24,6 @@ public class UbitrackManager {
 	}
 	
 	public void startTracking() {
-		ubitrackFacade.startDataflow();
 		imageReceiver = new ImageReceiver();
 		if (!ubitrackFacade.setImageCallback("imgsink", imageReceiver)) {
 			return;
@@ -33,7 +32,7 @@ public class UbitrackManager {
 		BackgroundObject backgroundObject = new BackgroundObject();
 		viewer.addObject(backgroundObject);
 		imageReceiver.setBackground(backgroundObject.getBackground());
-
+		ubitrackFacade.startDataflow();
 	}
 	
 	public void addObjectToViewer(BranchGroup obj) {

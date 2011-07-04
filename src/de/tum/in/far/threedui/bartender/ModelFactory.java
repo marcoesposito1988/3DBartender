@@ -18,6 +18,19 @@ import com.sun.j3d.loaders.Scene;
 import com.sun.j3d.loaders.objectfile.ObjectFile;
 
 public class ModelFactory {
+	
+	public enum ModelType { VRML, OBJ, COLLADA, TDS, BLEND };
+	
+	public static ModelObject loadModel(String modelFileName, ModelType modelFileType) throws Exception {
+		switch (modelFileType) {
+		case VRML: return loadVRMLModel(modelFileName);
+		case OBJ: return loadObjModel(modelFileName);
+		case COLLADA: return loadColladaModel(modelFileName);
+		case TDS: return load3DSModel(modelFileName);
+		case BLEND: return loadBlendModel(modelFileName);
+		default: throw new Exception();
+		}
+	}
 
 	public static ModelObject loadVRMLModel(String modelFileName) {
 		VrmlLoader loader = new VrmlLoader();

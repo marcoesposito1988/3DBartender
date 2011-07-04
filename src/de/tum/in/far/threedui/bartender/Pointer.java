@@ -3,7 +3,6 @@ package de.tum.in.far.threedui.bartender;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
-import javax.vecmath.Vector3d;
 
 import com.sun.j3d.utils.geometry.Box;
 
@@ -67,6 +66,8 @@ public class Pointer extends TransformableObject {
 		Pointer p = new Pointer();
 		p.setArrow(new ArrowObject());
 		ModelObject sheep = ModelFactory.loadVRMLModel("Sheep.wrl");
+		Menu m = new Menu();
+		
 		
 		// SECOND: create UbitrackManager, call prepareTracking()
 		UbitrackManager um = new UbitrackManager();
@@ -74,15 +75,18 @@ public class Pointer extends TransformableObject {
 		// THIRD: get all the PoseReceivers you need
 		PoseReceiver pr = um.getReceiverForMarker("posesink");
 		PoseReceiver pr2 = um.getReceiverForMarker("posesink2");
+		PoseReceiver pr3 = um.getReceiverForMarker("posesink3");
 		// FOURTH: startTracking();
 		um.startTracking();
 		
 		// FIFTH: link the PoseReceivers to the TransformGroups
 		pr.setTransformGroup(p.transGroup);
 		pr2.setTransformGroup(sheep.transGroup);
+		pr3.setTransformGroup(m.transGroup);
 		// SIXTH: add objects to the viewer
 		um.addObjectToViewer(p);
 		um.addObjectToViewer(sheep);
+		um.addObjectToViewer(m);
 		// SEVENTH: in order to test a main, edit TestConfig.launch
 	}
 	
