@@ -114,6 +114,7 @@ public class Menu extends TransformableObject {
 	public void showCategory(String categoryName) {
 		menuItemsGroup.removeAllChildren();
 		menuItemsGroup.addChild(menuItems.get(categoryName));
+		displayedMenuItems = menuItems.get(categoryName);
 	}
 
 }

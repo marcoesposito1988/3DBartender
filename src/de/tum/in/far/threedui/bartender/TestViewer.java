@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import javax.media.j3d.AmbientLight;
+import javax.media.j3d.BoundingBox;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
@@ -142,11 +143,6 @@ public class TestViewer {
 	public static final String EXERCISE = "Exercise 1 Solution";
 	private Viewer viewer;
 	
-	public static void main(String[] args) {
-		TestViewer exercise1 = new TestViewer();
-		exercise1.initializeJava3D();
-	}
-	
 	public void initializeJava3D() {
 		System.out.println("Creating Viewer - " + EXERCISE);
 		viewer = new Viewer(EXERCISE);
@@ -165,5 +161,18 @@ public class TestViewer {
 		viewer.getCameraTransformGroup().getTransform(cameraPosition);
 		cameraPosition.mul(myt3d);
 		viewer.getCameraTransformGroup().setTransform(cameraPosition);
+	}
+	
+	public static void main(String[] args) {
+		TestViewer tv = new TestViewer();
+		tv.initializeJava3D();
+		Glass glass = new Glass();
+		tv.addObject(glass);
+		BoundingBox myb = new BoundingBox(glass.getBounds());
+	    Point3d upper = new Point3d(), lower = new Point3d();
+	    myb.getUpper(upper); myb.getLower(lower);
+	    double height = upper.y-lower.y;
+	    double width = upper.x-lower.x;
+		System.out.println("height: "+height+"; width: "+width);
 	}
 }

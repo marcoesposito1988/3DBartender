@@ -3,11 +3,8 @@ package de.tum.in.far.threedui.bartender;
 import java.util.Enumeration;
 
 import javax.media.j3d.Behavior;
-import javax.media.j3d.Node;
 import javax.media.j3d.WakeupCriterion;
 import javax.media.j3d.WakeupOnCollisionEntry;
-import javax.media.j3d.WakeupOnCollisionExit;
-import javax.media.j3d.WakeupOnTransformChange;
 
 public class MenuBehavior extends Behavior {
 	
@@ -21,10 +18,7 @@ public class MenuBehavior extends Behavior {
 
 	@Override
 	public void initialize() {
-		wakeupOn(new WakeupOnCollisionEntry(menu));
-		// at each movement of the pointer, take the position, cast a ray and highlight corresp. item in menu
-		wakeupOn(new WakeupOnTransformChange(menu.transGroup));
-
+		armOnMenuItems();
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -39,17 +33,25 @@ public class MenuBehavior extends Behavior {
 				// get selected item, put it in pointer
 				ev = (WakeupOnCollisionEntry) genericEvt;
 				System.out.println(ev.getTriggeringPath().getObject().getName());
-				
-				selectedItem(ev.getTriggeringPath().getObject());
+				System.out.println(ev.getArmingPath().getObject().getName());
+//				selectedItem(ev.getTriggeringPath().getObject());
 			}
-			if (genericEvt instanceof WakeupOnTransformChange) {
-				// take position, cast the ray
-			}
+		}
+		
+		armOnMenuItems();
+	}
+	
+	protected void armOnMenuItems() {
+		Enumeration<MenuItem> items = menu.displayedMenuItems.getAllChildren();
+		while (items.hasMoreElements()) {
+			MenuItem mi = items.nextElement();
+			System.out.println("arming for "+mi.toString());
+			wakeupOn(new WakeupOnCollisionEntry(mi.getBounds()));
 		}
 	}
 	
-	protected void selectedItem(Node node) {
-		pointer.attachModel(node);
-	}
+//	protected void selectedItem(Node node) {
+//		pointer.attachModel(node);
+//	}
 
 }

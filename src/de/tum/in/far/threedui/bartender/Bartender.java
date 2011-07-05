@@ -1,5 +1,9 @@
 package de.tum.in.far.threedui.bartender;
 
+import javax.media.j3d.BoundingSphere;
+import javax.media.j3d.BranchGroup;
+import javax.vecmath.Point3d;
+
 public class Bartender {
 	
 	UbitrackManager ubitrackManager;
@@ -7,6 +11,9 @@ public class Bartender {
 	Menu menu = new Menu();
 	Pointer pointer = new Pointer();
 	Glass glass = new Glass();
+	
+	BranchGroup menuGroup = new BranchGroup();
+	MenuBehavior menuBehavior;
 	
 	public Bartender() {
 		ubitrackManager = new UbitrackManager();
@@ -32,6 +39,12 @@ public class Bartender {
 		pointer.setPoseReceiver(pointerReceiver);
 		menu.setPoseReceiver(menuReceiver);
 		glass.setPoseReceiver(glassReceiver);
+		
+		menuBehavior = new MenuBehavior(menu,pointer);
+		menuGroup.addChild(menuBehavior);
+		menuBehavior.setSchedulingBounds(new BoundingSphere(new Point3d(0,0,0), 1));
+		ubitrackManager.addObjectToViewer(menuGroup);
+
 	}
 
 	/**
