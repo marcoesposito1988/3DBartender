@@ -19,7 +19,7 @@ public class Bartender {
 		ubitrackManager.prepareTracking();
 
 		PoseReceiver pr = ubitrackManager.getReceiverForMarker("posesink");
-		PoseReceiver pr2 = ubitrackManager.getReceiverForMarker("posesink2");
+		PoseReceiver pr2 = ubitrackManager.getReceiverForMarker("posesink3");
 
 		ubitrackManager.startTracking();
 		ubitrackManager.addObjectToViewer(pointer);
