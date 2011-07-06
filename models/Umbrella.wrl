@@ -1,0 +1,100 @@
+
+#VRML V2.0 utf8
+
+DEF Umbrella
+
+Group{
+
+	children[
+	
+	Transform{
+			rotation  0 0 1  0.5
+			
+
+			children[
+
+			Transform {
+  	 					#translation	0 0 0
+   						#rotation  -1 -1.56828e-008 1.52085e-007 1.5708
+   						#rotation  0 0 1  0.7
+   						#scale .005625  .005625 .005625
+   						
+   						children[
+   								
+   								Shape{
+   								
+								appearance Appearance{
+													material Material{
+															diffuseColor 190 190 190
+															
+
+
+															}
+
+														}
+
+								geometry Cylinder {
+	    
+	    						#bottom  TRUE 	#TRUE or FALSE determines the existence of the bottom-cap
+        						height 0.2		#height in units
+        						radius 0.005		#radius in units
+								#side    TRUE 	#TRUE or FALSE determines the existence of the sides
+								#top  FALSE 	#TRUE or FALSE determines the existence of the top-ca
+		    					side TRUE
+    							bottom TRUE
+    							top TRUE
+	 			
+	 	
+	 							}
+	 							}
+								    
+								
+								]  	
+								
+								 
+							}    
+								     
+						
+					Transform{ 
+								
+								translation	0 0.1 0
+				
+							children[	
+			
+								Shape{
+   								
+								appearance Appearance{
+													material Material{
+															diffuseColor 1 0 0
+															
+
+															}
+
+														}
+
+								geometry Cone{
+											bottomRadius 0.1 #bottomradius in units
+											height       0.025 #height in units
+											#side         TRUE #TRUE or FALSE determines the existence of the sides
+											#bottom       FALSE #TRUE or FALSE determines the existence of the bottom-cap
+							
+							
+											  }
+											
+											
+											
+										}
+										]
+								}
+											
+											
+													
+						
+			]
+			}
+			]
+
+
+}
+
+

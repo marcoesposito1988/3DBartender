@@ -1,6 +1,7 @@
 package de.tum.in.far.threedui.bartender;
 
 import java.awt.GraphicsConfiguration;
+import java.io.File;
 
 import javax.media.j3d.AmbientLight;
 import javax.media.j3d.BoundingSphere;
@@ -168,7 +169,7 @@ public class TestViewer {
 		ModelObject glass = null;
 		try {
 			//glass = ModelFactory.loadModel("bar-set" + File.separator + "cocktail-glass.blend", ModelType.BLEND);
-			glass = ModelFactory.loadModel("Umbrella.wrl", ModelType.VRML);
+			glass = ModelFactory.loadModel("Straw.wrl", ModelType.VRML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
