@@ -15,6 +15,7 @@ public class MenuData {
 			this.name = name;
 			this.modelFileName = modelFileName;
 			this.type = type;
+			this.modelType = modelType;
 		}
 	}
 	

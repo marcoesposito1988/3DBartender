@@ -28,6 +28,8 @@ import com.sun.j3d.loaders.Scene;
 import com.sun.j3d.utils.behaviors.keyboard.KeyNavigatorBehavior;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
+import de.tum.in.far.threedui.bartender.ModelFactory.ModelType;
+
 public class TestViewer {
 	
 	public class Viewer {
@@ -142,11 +144,6 @@ public class TestViewer {
 	public static final String EXERCISE = "Exercise 1 Solution";
 	private Viewer viewer;
 	
-	public static void main(String[] args) {
-		TestViewer exercise1 = new TestViewer();
-		exercise1.initializeJava3D();
-	}
-	
 	public void initializeJava3D() {
 		System.out.println("Creating Viewer - " + EXERCISE);
 		viewer = new Viewer(EXERCISE);
@@ -166,4 +163,26 @@ public class TestViewer {
 		cameraPosition.mul(myt3d);
 		viewer.getCameraTransformGroup().setTransform(cameraPosition);
 	}
+	
+	public static void main(String[] args) {
+		TestViewer exercise1 = new TestViewer();
+		exercise1.initializeJava3D();
+		BranchGroup bg = new BranchGroup();
+		TransformGroup tg = new TransformGroup();
+		Transform3D t3d = new Transform3D();
+		t3d.setScale(10);
+		tg.setTransform(t3d);
+		ModelObject glass = null;
+		try {
+			//glass = ModelFactory.loadModel("bar-set" + File.separator + "cocktail-glass.blend", ModelType.BLEND);
+			glass = ModelFactory.loadModel("Empty_Glass.wrl", ModelType.VRML);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		tg.addChild(glass);
+		bg.addChild(tg);
+		exercise1.addObject(bg);
+	}
+	
 }
