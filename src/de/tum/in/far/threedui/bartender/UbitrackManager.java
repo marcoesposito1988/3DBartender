@@ -9,13 +9,13 @@ public class UbitrackManager {
 	private String appName = "3D Bartender";
 	
 	private UbitrackFacade ubitrackFacade;
-	private Viewer viewer;
+	private MessageViewer viewer;
 	
 	private ImageReceiver imageReceiver;
 	
 	public UbitrackManager() {
 		ubitrackFacade = new UbitrackFacade();
-		viewer = new Viewer(appName, ubitrackFacade);
+		viewer = new MessageViewer(appName, ubitrackFacade);
 		
 	}
 	

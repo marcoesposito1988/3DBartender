@@ -1,8 +1,7 @@
 package de.tum.in.far.threedui.bartender;
 
-import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.media.j3d.Transform3D;
@@ -31,7 +30,7 @@ public class Menu extends TransformableObject {
 		prepareGeometry();
 		menuData = new MenuData();
 		createMenuItems(menuData.menuData.getRootElement(),null);
-		placeMenuItems(DEFAULT_GAP);
+		showCategory("root");
 	}
 	
 //	public Menu(String dataFileName) {
@@ -52,29 +51,41 @@ public class Menu extends TransformableObject {
 	
 	private MenuItem createMenuItem(String name, String labelText, ModelObject model) {
 		MenuItem newMenuItem = new MenuItem(name,labelText,model);
-		menuItemsGroup.addChild(newMenuItem);
 		return newMenuItem;
 	}
 	
 	public void createMenuItems(Node<MenuData.MenuItemData> tree, String category) {
 		if (tree.data == null) {
 			// ROOT
-			menuItems.put("root", new TransformGroup());
+			TransformGroup catTrGr = new TransformGroup();
+			menuItems.put("root",catTrGr);
 			for (Node<MenuData.MenuItemData> child : tree.children) {
 				createMenuItems(child,"root");
 			}
+			placeMenuItems(catTrGr.getAllChildren(),DEFAULT_GAP);
 			return;
 		}
 		if(tree.data.type == MenuItemType.CATEGORY) {
 			// create category
 			System.out.println("created category "+tree.data.name);
-			menuItems.put(tree.data.name, new TransformGroup());
+			TransformGroup catTrGr = new TransformGroup();
+			menuItems.put(tree.data.name, catTrGr);
+			ModelObject model = null;
+			try {
+				model = ModelFactory.loadModel(tree.data.modelFileName, tree.data.modelType);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			MenuItem ciao = createMenuItem(tree.data.name, tree.data.name,	model);
+			menuItems.get(category).addChild(ciao);
 			// continue walking
 			if (tree.children == null)
 				return;
 			for (Node<MenuData.MenuItemData> child : tree.children) {
 				createMenuItems(child,tree.data.name);
 			}
+			placeMenuItems(catTrGr.getAllChildren(),DEFAULT_GAP);
 		} else {	// tree.data.type == MenuItemType.ITEM
 			// create item
 			System.out.println("created item "+tree.data.name);
@@ -85,24 +96,25 @@ public class Menu extends TransformableObject {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			menuItems.get(category).addChild(createMenuItem(tree.data.name, tree.data.name,model));
+			MenuItem ciao = createMenuItem(tree.data.name, tree.data.name,	model);
+			menuItems.get(category).addChild(ciao);
 		}
 	}
 
-	public void placeMenuItems(double gap) {
-		if (menuItems.size() == 1)
-			return;
+	public void placeMenuItems(Enumeration<? extends TransformableObject> items, double gap) {
 		Transform3D myt3d = new Transform3D();
 		int i = 0;
-		for (MenuItem mi : displayedMenuItems) {
+		while (items.hasMoreElements()){
 			myt3d.setTranslation(new Vector3d((i+0.5-menuItems.size()/2)*gap,0,0));
-			mi.transGroup.setTransform(myt3d);
+			items.nextElement().transGroup.setTransform(myt3d);
 			i++;
 		}
 	}
 	
 	public void showCategory(String categoryName) {
-		displayedMenuItems.removeAllChildren();
+		menuItemsGroup.removeAllChildren();
+		menuItemsGroup.addChild(menuItems.get(categoryName));
+		displayedMenuItems = menuItems.get(categoryName);
 	}
 
 }

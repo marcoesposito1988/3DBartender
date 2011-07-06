@@ -35,12 +35,21 @@ public class MenuData {
 	
 	private void loadStaticData() {
 		menuData.setRootElement(new Node<MenuItemData>());
-		Node<MenuItemData> alcoholics = menuData.getRootElement().addChild(createCategory("Alcoholics","Bottle.obj",ModelType.OBJ));
-		alcoholics.addChild(createItem("Gin","Bottle.obj",ModelType.OBJ));
-		alcoholics.addChild(createItem("Rum", "Bottle.obj",ModelType.OBJ));
-		Node<MenuItemData> non_alcoholics = menuData.getRootElement().addChild(createCategory("Non-Alcoholics","Bottle.obj",ModelType.OBJ));
-		non_alcoholics.addChild(createItem("Tonic", "Bottle.obj",ModelType.OBJ));
-		non_alcoholics.addChild(createItem("Cola", "Bottle.obj",ModelType.OBJ));
+//		Node<MenuItemData> alcoholics = menuData.getRootElement().addChild(createCategory("Alcoholics","Bottle.obj",ModelType.OBJ));
+//		alcoholics.addChild(createItem("Gin","Bottle.obj",ModelType.OBJ));
+//		alcoholics.addChild(createItem("Rum", "Bottle.obj",ModelType.OBJ));
+//		Node<MenuItemData> non_alcoholics = menuData.getRootElement().addChild(createCategory("Non-Alcoholics","Bottle.obj",ModelType.OBJ));
+//		non_alcoholics.addChild(createItem("Tonic", "Bottle.obj",ModelType.OBJ));
+//		non_alcoholics.addChild(createItem("Cola", "Bottle.obj",ModelType.OBJ));
+		
+		// testing: sheep menu!
+		Node<MenuItemData> alcoholics = menuData.getRootElement().addChild(createCategory("Alcoholics","Sheep.wrl",ModelType.VRML));
+		alcoholics.addChild(createItem("Gin","Sheep.wrl",ModelType.VRML));
+		alcoholics.addChild(createItem("Rum", "Sheep.wrl",ModelType.VRML));
+		Node<MenuItemData> non_alcoholics = menuData.getRootElement().addChild(createCategory("Non-Alcoholics","Sheep.wrl",ModelType.VRML));
+		non_alcoholics.addChild(createItem("Tonic","Sheep.wrl",ModelType.VRML));
+		non_alcoholics.addChild(createItem("Cola","Sheep.wrl",ModelType.VRML));
+		Node<MenuItemData> ice = menuData.getRootElement().addChild(createCategory("Ice","Sheep.wrl",ModelType.VRML));
 	}
 	
 //	public MenuData(String dataFileName) {

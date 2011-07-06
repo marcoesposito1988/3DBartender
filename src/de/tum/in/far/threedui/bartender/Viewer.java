@@ -91,7 +91,7 @@ public class Viewer {
 		return universe.getViewingPlatform().getViewPlatformTransform();
 	}
 	
-	private void createLight() {
+	protected void createLight() {
 		// First, create Ambient Light
 		//Red, Green, Blue values in 0-1 range
 		Color3f white = new Color3f(1.0f, 1.0f, 1.0f);
@@ -135,7 +135,7 @@ public class Viewer {
 		addObject(pointLightBranchGroup);
 	}
 	
-	private void initKeyNavigation() {
+	protected void initKeyNavigation() {
 		// Get ViewingPlatform from your simple universe
 		TransformGroup transformGroupCamera = getCameraTransformGroup();
 		
@@ -150,7 +150,7 @@ public class Viewer {
 		rootNode.addChild(bg);
 	}
 
-	private void initCamera() {
+	protected void initCamera() {
 		Transform3D projectionMatrix = new Transform3D();
 		
 		double nearClipping = 0.1;
@@ -215,7 +215,7 @@ public class Viewer {
 		universe.getViewer().getView().setLeftProjection(projectionMatrix);
 	}
 	
-	private double[] constructProjectionMatrix(double[] i3x3, double near, double far) {
+	protected double[] constructProjectionMatrix(double[] i3x3, double near, double far) {
 		double r = 320.0;
 		double l = 0.0;
 		double t = 240.0;

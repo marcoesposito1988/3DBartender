@@ -1,8 +1,6 @@
 package de.tum.in.far.threedui.bartender;
 
 import java.awt.GraphicsConfiguration;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 import javax.media.j3d.AmbientLight;
 import javax.media.j3d.BoundingSphere;
@@ -13,18 +11,12 @@ import javax.media.j3d.PointLight;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.JFrame;
-import javax.vecmath.AxisAngle4d;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
-import org.jdesktop.j3d.loaders.vrml97.VrmlLoader;
-
-import com.sun.j3d.loaders.IncorrectFormatException;
-import com.sun.j3d.loaders.ParsingErrorException;
-import com.sun.j3d.loaders.Scene;
 import com.sun.j3d.utils.behaviors.keyboard.KeyNavigatorBehavior;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
@@ -165,6 +157,7 @@ public class TestViewer {
 	}
 	
 	public static void main(String[] args) {
+
 		TestViewer exercise1 = new TestViewer();
 		exercise1.initializeJava3D();
 		BranchGroup bg = new BranchGroup();
@@ -175,7 +168,7 @@ public class TestViewer {
 		ModelObject glass = null;
 		try {
 			//glass = ModelFactory.loadModel("bar-set" + File.separator + "cocktail-glass.blend", ModelType.BLEND);
-			glass = ModelFactory.loadModel("Empty_Glass.wrl", ModelType.VRML);
+			glass = ModelFactory.loadModel("Umbrella.wrl", ModelType.VRML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
