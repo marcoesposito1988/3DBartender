@@ -2,14 +2,17 @@ package de.tum.in.far.threedui.bartender;
 
 import java.io.File;
 
+import javax.media.j3d.BoundingSphere;
+import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
 public class MenuItem extends TransformableObject {
 
 	private String name;
-	private ModelObject model;
+	ModelObject model;
 	private Label label;
 	
 	private Transform3D modelPosition = new Transform3D();
@@ -21,14 +24,22 @@ public class MenuItem extends TransformableObject {
 	private Transform3D globalPosition = new Transform3D();
 	private TransformGroup globalGroup = new TransformGroup();
 	
+	// Behavior
+	private BranchGroup behaviorGroup = new BranchGroup();
+	
 	private String labelText;
 	private int labelHeight;
+	
+	private MenuItemBehavior behavior;
 	
 	public MenuItem(String name, String labelText, ModelObject model) {
 		this.name = name;
 		setModel(model);
 		setLabel(labelText);
 		transGroup.addChild(globalGroup);
+		
+		behavior = new MenuItemBehavior(this);
+		addChild(behavior);
 	}
 	
 	public void setModel(ModelObject model) {
@@ -81,15 +92,8 @@ public class MenuItem extends TransformableObject {
 		return this.name;
 	}
 	
-	public static void main(String[] args) {
-		TestViewer tv = new TestViewer();
-		tv.initializeJava3D();
-//		MenuItem mi = new MenuItem("Glass","Cocktail Glass",ModelFactory.loadVRMLModel("Sheep.wrl"));
-//		mi.setModelScaling(0.18);
-		//mi.setLabelBottom(1);
-		ArrowObject ao = new ArrowObject();
-		tv.addObject(ao);
-		tv.addCameraDisplacement(new Vector3d(0,0,+0.5));
+	public void armBehavior() {
+		behavior.setSchedulingBounds(new BoundingSphere(new Point3d(0,0,0), 1));
 	}
 
 }
