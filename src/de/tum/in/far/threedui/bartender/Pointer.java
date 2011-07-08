@@ -15,38 +15,29 @@ public class Pointer extends TransformableObject {
 	protected Transform3D pointerPosition = new Transform3D();
 	
 	public Pointer() {
-		// TODO Anke: create a posereceiver and store it as a field
+		offset.setCapability(ALLOW_CHILDREN_EXTEND);
+		offset.setCapability(ALLOW_CHILDREN_WRITE);
+		offset.setCapability(ALLOW_CHILDREN_READ);
 		
 		//pointerPoseReceiver = new PoseReceiver();
 		//here make zylinder and cone
 		transGroup.addChild(offset);
-	}
-	public void setArrow(ArrowObject arrow) {
-		// TODO Anke: store this model and use it
-		
-		//offset = new TransformGroup();
-		this.arrow = arrow;
-		//Transform3D t3d = new Transform3D();
-		
-		//offset.setTransform(t3d);
+		this.arrow = new ArrowObject();
 		offset.addChild(arrow);
-		
 	}
-	
+
 	public void setModel(ModelObject model) {
-		// TODO Anke: store this model and use it
-		
-		//bg = new BranchGroup();
-		//offset = new TransformGroup();
 		this.model = model;
-		//Transform3D t3d = new Transform3D();
-		
-		//offset.setTransform(t3d);
 		offset.addChild(model);
 		transGroup.addChild(offset);
-		
-		
 	}
+	
+	public ModelObject removeModel() {
+		offset.removeAllChildren();
+		offset.addChild(arrow);
+		return this.model;
+	}
+	
 	public void setModelScaling(double factor) {
 		pointerPosition.setScale(factor);
 		offset.setTransform(pointerPosition);
@@ -64,7 +55,6 @@ public class Pointer extends TransformableObject {
 		
 		// FIRST: create stuff
 		Pointer p = new Pointer();
-		p.setArrow(new ArrowObject());
 		ModelObject sheep = ModelFactory.loadVRMLModel("Sheep.wrl");
 		Menu m = new Menu();
 		

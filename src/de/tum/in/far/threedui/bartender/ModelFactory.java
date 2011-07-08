@@ -70,7 +70,6 @@ public class ModelFactory {
 		TransformGroup offset = new TransformGroup();
 		bg.addChild(offset);
 		offset.addChild(myScene.getSceneGroup());
-		
 		return new ModelObject(bg);
 	}
 	

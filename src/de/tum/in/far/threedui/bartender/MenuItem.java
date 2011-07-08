@@ -1,12 +1,9 @@
 package de.tum.in.far.threedui.bartender;
 
-import java.io.File;
-
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
-import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
 public class MenuItem extends TransformableObject {
@@ -18,7 +15,7 @@ public class MenuItem extends TransformableObject {
 	private Transform3D modelPosition = new Transform3D();
 	private Transform3D labelPosition = new Transform3D();
 	
-	private TransformGroup modelGroup = new TransformGroup();
+	TransformGroup modelGroup = new TransformGroup();
 	private TransformGroup labelGroup = new TransformGroup();
 	
 	private Transform3D globalPosition = new Transform3D();
@@ -39,7 +36,7 @@ public class MenuItem extends TransformableObject {
 		transGroup.addChild(globalGroup);
 		
 		behavior = new MenuItemBehavior(this);
-		addChild(behavior);
+		globalGroup.addChild(behavior);
 	}
 	
 	public void setModel(ModelObject model) {
@@ -93,7 +90,7 @@ public class MenuItem extends TransformableObject {
 	}
 	
 	public void armBehavior() {
-		behavior.setSchedulingBounds(new BoundingSphere(new Point3d(0,0,0), 1));
+		behavior.setSchedulingBounds(new BoundingSphere());
 	}
 
 }

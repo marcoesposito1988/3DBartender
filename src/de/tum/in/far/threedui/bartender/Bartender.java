@@ -18,9 +18,6 @@ public class Bartender {
 	}
 	
 	public void start() {
-		ubitrackManager = new UbitrackManager();
-
-		pointer.setArrow(new ArrowObject());
 		MenuItemBehavior.pointer = pointer;
 		
 		ubitrackManager.prepareTracking();
