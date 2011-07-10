@@ -36,32 +36,4 @@ public class Glass extends WorkbenchItem {
 		behavior.setSchedulingBounds(new BoundingSphere());
 	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		TestViewer tv = new TestViewer();
-		tv.initializeJava3D();
-		MenuItem mi = null;
-		try {
-			mi = new MenuItem("Glass","Cocktail Glass",ModelFactory.loadModel("bar-set" + File.separator + "cocktail-glass.obj", ModelType.OBJ));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		mi.setModelScaling(0.18);
-		//mi.setLabelBottom(1);
-		BranchGroup mybrgr = new BranchGroup();
-		TransformGroup mytrgr = new TransformGroup();
-		Transform3D myt3d = new Transform3D();
-		myt3d.rotY(Math.PI/2);
-		mytrgr.setTransform(myt3d);
-		mytrgr.addChild(mi);
-		mybrgr.addChild(mytrgr);
-		tv.addObject(mybrgr);
-
-		
-		tv.addCameraDisplacement(new Vector3d(0,0,+0.5));
-	}
-
 }

@@ -44,20 +44,26 @@ public class Menu extends TransformableObject {
 //	}
 	
 	private void prepareGeometry() {
-		displayedMenuItems.addChild(menuItemsGroup);
+		
+		displayedMenuItems.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		displayedMenuItems.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		displayedMenuItems.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		displayedMenuItems.setCapability(BranchGroup.ALLOW_DETACH);
+		
 		menuItemsGroup.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
 		menuItemsGroup.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
 		menuItemsGroup.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
-		
+
+		menuItemsGroup.addChild(displayedMenuItems);
 		menuItemsPosition.rotX(Math.PI/2);
 		menuItemsPosition.setTranslation(new Vector3d(0,0,0.025));
 		menuItemsGroup.setTransform(menuItemsPosition);
-		transGroup.addChild(displayedMenuItems);
+		transGroup.addChild(menuItemsGroup);
 
 	}
 	
-	private MenuItem createMenuItem(String name, String labelText, ModelObject model) {
-		MenuItem newMenuItem = new MenuItem(name,labelText,model);
+	private MenuItem createMenuItem(String name, String labelText, TransformableObject model, boolean isCategory) {
+		MenuItem newMenuItem = new MenuItem(name,labelText,model,isCategory);
 		return newMenuItem;
 	}
 	
@@ -65,6 +71,7 @@ public class Menu extends TransformableObject {
 		if (tree.data == null) {
 			// ROOT
 			BranchGroup catBrGr = new BranchGroup();
+			catBrGr.setCapability(BranchGroup.ALLOW_DETACH);
 			menuBranches.put("root",catBrGr);
 			menuItems.put("root", new ArrayList<MenuItem>());
 			for (Node<MenuData.MenuItemData> child : tree.children) {
@@ -77,6 +84,7 @@ public class Menu extends TransformableObject {
 			// create category
 			System.out.println("created category "+tree.data.name);
 			BranchGroup catBrGr = new BranchGroup();
+			catBrGr.setCapability(BranchGroup.ALLOW_DETACH);
 			menuBranches.put(tree.data.name, catBrGr);
 			menuItems.put(tree.data.name, new ArrayList<MenuItem>());
 			ModelObject model = null;
@@ -86,7 +94,7 @@ public class Menu extends TransformableObject {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			MenuItem ciao = createMenuItem(tree.data.name, tree.data.name,	model);
+			MenuItem ciao = createMenuItem(tree.data.name, tree.data.name,model,true);
 			menuBranches.get(category).addChild(ciao);
 			menuItems.get(category).add(ciao);
 			// continue walking
@@ -95,6 +103,10 @@ public class Menu extends TransformableObject {
 			for (Node<MenuData.MenuItemData> child : tree.children) {
 				createMenuItems(child,tree.data.name);
 			}
+			Label backButton = new Label();
+			backButton.setText("Back");
+			MenuItem back = createMenuItem(category, "Back", backButton,true);
+			menuBranches.get(tree.data.name).addChild(back);
 			placeMenuItems(catBrGr.getAllChildren(),DEFAULT_GAP);
 		} else {	// tree.data.type == MenuItemType.ITEM
 			// create item
@@ -106,7 +118,7 @@ public class Menu extends TransformableObject {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			MenuItem ciao = createMenuItem(tree.data.name, tree.data.name,	model);
+			MenuItem ciao = createMenuItem(tree.data.name, tree.data.name,model,false);
 			menuBranches.get(category).addChild(ciao);
 			menuItems.get(category).add(ciao);
 		}
@@ -123,8 +135,9 @@ public class Menu extends TransformableObject {
 	}
 	
 	public void showCategory(String categoryName) {
-		menuItemsGroup.removeAllChildren();
-		menuItemsGroup.addChild(menuBranches.get(categoryName));
+		if (displayedMenuItems.getAllChildren().hasMoreElements())
+			((BranchGroup)displayedMenuItems.getChild(0)).detach();
+		displayedMenuItems.addChild(menuBranches.get(categoryName));
 		
 		for (MenuItem mi : menuItems.get(categoryName)) {
 			mi.armBehavior();

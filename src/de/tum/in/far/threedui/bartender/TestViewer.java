@@ -2,10 +2,8 @@ package de.tum.in.far.threedui.bartender;
 
 import java.awt.GraphicsConfiguration;
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import javax.media.j3d.AmbientLight;
-import javax.media.j3d.BoundingBox;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
@@ -14,20 +12,16 @@ import javax.media.j3d.PointLight;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.JFrame;
-import javax.vecmath.AxisAngle4d;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
-import org.jdesktop.j3d.loaders.vrml97.VrmlLoader;
-
-import com.sun.j3d.loaders.IncorrectFormatException;
-import com.sun.j3d.loaders.ParsingErrorException;
-import com.sun.j3d.loaders.Scene;
 import com.sun.j3d.utils.behaviors.keyboard.KeyNavigatorBehavior;
 import com.sun.j3d.utils.universe.SimpleUniverse;
+
+import de.tum.in.far.threedui.bartender.ModelFactory.ModelType;
 
 public class TestViewer {
 	
@@ -164,15 +158,25 @@ public class TestViewer {
 	}
 	
 	public static void main(String[] args) {
-		TestViewer tv = new TestViewer();
-		tv.initializeJava3D();
-		Glass glass = new Glass();
-		tv.addObject(glass);
-		BoundingBox myb = new BoundingBox(glass.getBounds());
-	    Point3d upper = new Point3d(), lower = new Point3d();
-	    myb.getUpper(upper); myb.getLower(lower);
-	    double height = upper.y-lower.y;
-	    double width = upper.x-lower.x;
-		System.out.println("height: "+height+"; width: "+width);
+
+		TestViewer exercise1 = new TestViewer();
+		exercise1.initializeJava3D();
+		BranchGroup bg = new BranchGroup();
+		TransformGroup tg = new TransformGroup();
+		Transform3D t3d = new Transform3D();
+		t3d.setScale(10);
+		tg.setTransform(t3d);
+		ModelObject glass = null;
+		try {
+			//glass = ModelFactory.loadModel("bar-set" + File.separator + "cocktail-glass.blend", ModelType.BLEND);
+			glass = ModelFactory.loadModel("Straw.wrl", ModelType.VRML);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		tg.addChild(glass);
+		bg.addChild(tg);
+		exercise1.addObject(bg);
 	}
+	
 }

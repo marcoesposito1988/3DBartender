@@ -9,6 +9,8 @@ public class Bartender {
 	Menu menu = new Menu();
 	Pointer pointer = new Pointer();
 	Glass glass = new Glass();
+	ModelObject glassObject;
+	TransformableObject glassTransfObject;
 	
 	BranchGroup menuGroup = new BranchGroup();
 //	MenuBehavior menuBehavior;
@@ -18,7 +20,7 @@ public class Bartender {
 	}
 	
 	public void start() {
-		MenuItemBehavior.pointer = pointer;
+		MenuItemBehavior.setEnvironment(menu, pointer);
 		
 		ubitrackManager.prepareTracking();
 
@@ -35,8 +37,9 @@ public class Bartender {
 		pointer.setPoseReceiver(pointerReceiver);
 		menu.setPoseReceiver(menuReceiver);
 		glass.setPoseReceiver(glassReceiver);
-		
+
 		menu.showCategory("root");
+
 		ubitrackManager.addObjectToViewer(menuGroup);
 
 	}

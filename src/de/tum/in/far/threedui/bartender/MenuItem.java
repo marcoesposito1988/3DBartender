@@ -9,8 +9,9 @@ import javax.vecmath.Vector3d;
 public class MenuItem extends TransformableObject {
 
 	private String name;
-	ModelObject model;
+	TransformableObject model;
 	private Label label;
+	boolean isCategory;
 	
 	private Transform3D modelPosition = new Transform3D();
 	private Transform3D labelPosition = new Transform3D();
@@ -29,8 +30,9 @@ public class MenuItem extends TransformableObject {
 	
 	private MenuItemBehavior behavior;
 	
-	public MenuItem(String name, String labelText, ModelObject model) {
+	public MenuItem(String name, String labelText, TransformableObject model, boolean isCategory) {
 		this.name = name;
+		this.isCategory = isCategory;
 		setModel(model);
 		setLabel(labelText);
 		transGroup.addChild(globalGroup);
@@ -39,9 +41,9 @@ public class MenuItem extends TransformableObject {
 		globalGroup.addChild(behavior);
 	}
 	
-	public void setModel(ModelObject model) {
-		this.model = model;
-		modelGroup.addChild(model);
+	public void setModel(TransformableObject model2) {
+		this.model = model2;
+		modelGroup.addChild(model2);
 		globalGroup.addChild(modelGroup);
 	}
 	

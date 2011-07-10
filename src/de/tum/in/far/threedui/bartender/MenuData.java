@@ -49,6 +49,7 @@ public class MenuData {
 		Node<MenuItemData> non_alcoholics = menuData.getRootElement().addChild(createCategory("Non-Alcoholics","Sheep.wrl",ModelType.VRML));
 		non_alcoholics.addChild(createItem("Tonic","Sheep.wrl",ModelType.VRML));
 		non_alcoholics.addChild(createItem("Cola","Sheep.wrl",ModelType.VRML));
+		Node<MenuItemData> ice = menuData.getRootElement().addChild(createCategory("Ice","Sheep.wrl",ModelType.VRML));
 	}
 	
 //	public MenuData(String dataFileName) {

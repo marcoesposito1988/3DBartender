@@ -9,9 +9,11 @@ import javax.media.j3d.WakeupOnCollisionEntry;
 public class MenuItemBehavior extends Behavior {
 	
 	static Pointer pointer;
+	static Menu menu;
 	int times = 0;
 	
-	public static void setPointer(Pointer p) {
+	public static void setEnvironment(Menu m,Pointer p) {
+		menu = m;
 		pointer = p;
 	}
 	
@@ -36,11 +38,11 @@ public class MenuItemBehavior extends Behavior {
 			genericEvt = (WakeupCriterion) criteria.nextElement();
 			if (genericEvt instanceof WakeupOnCollisionEntry){
 				// get selected item, put it in pointer
-				ev = (WakeupOnCollisionEntry) genericEvt;
-				System.out.println("COLLISION");
-				System.out.println("with "+menuItem.getName()+", "+times+++" times");
-				//System.out.println(ev.getArmingPath().getObject().getName());
-//				selectedItem(ev.getTriggeringPath().getObject());
+				if (menuItem.isCategory) {
+					menu.showCategory(menuItem.getName());
+				} else {
+					pointer.setModel(menuItem.model);
+				}
 			}
 		}
 		wakeupOn(new WakeupOnCollisionEntry(menuItem.modelGroup.getChild(0)));

@@ -48,7 +48,6 @@ public class UbitrackManager {
 	public static void main(String[] args) {
 		// FIRST: create stuff
 		Pointer p = new Pointer();
-		p.setArrow(new ArrowObject());
 		ModelObject sheep = ModelFactory.loadVRMLModel("Sheep.wrl");
 		
 		// SECOND: create UbitrackManager, call prepareTracking()

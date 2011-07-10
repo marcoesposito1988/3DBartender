@@ -8,7 +8,7 @@ import com.sun.j3d.utils.geometry.Box;
 
 public class Pointer extends TransformableObject {
 
-	protected ModelObject model;
+	protected TransformableObject model;
 	protected ArrowObject arrow;
 	
 	protected TransformGroup offset = new TransformGroup();
@@ -26,13 +26,13 @@ public class Pointer extends TransformableObject {
 		offset.addChild(arrow);
 	}
 
-	public void setModel(ModelObject model) {
+	public void setModel(TransformableObject model) {
 		this.model = model;
 		offset.addChild(model);
 		transGroup.addChild(offset);
 	}
 	
-	public ModelObject removeModel() {
+	public TransformableObject removeModel() {
 		offset.removeAllChildren();
 		offset.addChild(arrow);
 		return this.model;
