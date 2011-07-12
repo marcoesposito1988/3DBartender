@@ -1,6 +1,8 @@
 package de.tum.in.far.threedui.bartender;
 
 import java.util.Enumeration;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.media.j3d.Behavior;
 import javax.media.j3d.WakeupCriterion;
@@ -8,14 +10,11 @@ import javax.media.j3d.WakeupOnCollisionEntry;
 
 public class MenuItemBehavior extends Behavior {
 	
-	static Pointer pointer;
-	static Menu menu;
 	int times = 0;
 	
-	public static void setEnvironment(Menu m,Pointer p) {
-		menu = m;
-		pointer = p;
-	}
+	static boolean justVisualized = false;
+	protected Timer visualizationTimer = new Timer();
+	static final int VISUALIZATION_TIME = 1000;
 	
 	MenuItem menuItem;
 	
@@ -31,21 +30,35 @@ public class MenuItemBehavior extends Behavior {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void processStimulus(Enumeration criteria) {
-		WakeupOnCollisionEntry ev;
-		WakeupCriterion genericEvt;
-		
-		while (criteria.hasMoreElements()) {
-			genericEvt = (WakeupCriterion) criteria.nextElement();
-			if (genericEvt instanceof WakeupOnCollisionEntry){
-				// get selected item, put it in pointer
-				if (menuItem.isCategory) {
-					menu.showCategory(menuItem.getName());
-				} else {
-					pointer.setModel(menuItem.model);
+		if (GlobalStatus.menu.viewable == true && justVisualized == false) {
+			WakeupOnCollisionEntry ev;
+			WakeupCriterion genericEvt;
+			
+			while (criteria.hasMoreElements()) {
+				genericEvt = (WakeupCriterion) criteria.nextElement();
+				if (genericEvt instanceof WakeupOnCollisionEntry){
+					if (GlobalStatus.pointer.viewable == true) {
+						// get selected item, put it in pointer
+						if (menuItem.isCategory) {
+							justVisualized = true;
+							GlobalStatus.menu.showCategory(menuItem.getName());
+							visualizationTimer.schedule(new TimerTask() {
+								
+								@Override
+								public void run() {
+									justVisualized = false;
+									
+								}
+							}, VISUALIZATION_TIME);
+						} else {
+							GlobalStatus.pointer.attachModel(menuItem.detachModel());
+						}
+					}
 				}
 			}
+			wakeupOn(new WakeupOnCollisionEntry(menuItem.modelGroup.getChild(0)));
 		}
-		wakeupOn(new WakeupOnCollisionEntry(menuItem.modelGroup.getChild(0)));
+		
 	}
 	
 //	protected void selectedItem(Node node) {

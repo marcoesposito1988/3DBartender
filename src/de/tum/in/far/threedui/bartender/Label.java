@@ -4,7 +4,7 @@ import java.awt.Font;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BoundingBox;
-import javax.media.j3d.Bounds;
+import javax.media.j3d.BranchGroup;
 import javax.media.j3d.ColoringAttributes;
 import javax.media.j3d.Font3D;
 import javax.media.j3d.FontExtrusion;
@@ -15,7 +15,6 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
-import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.geometry.Box;
 
@@ -25,6 +24,8 @@ public class Label extends TransformableObject {
 	private static int TextSize = 2;
 	
 	private String text = "New label";
+	
+	private BranchGroup labelGroup = new BranchGroup();
 	
 	private TransformGroup textGroup;
 	private Appearance textAppear;
@@ -46,7 +47,7 @@ public class Label extends TransformableObject {
 	public Label() {
 		
 	    textGroup = new TransformGroup();
-	    this.addChild(textGroup);
+	    labelGroup.addChild(textGroup);
 
 	    textAppear = new Appearance();
 	    textAppear.setColoringAttributes(labelColor);
@@ -71,11 +72,12 @@ public class Label extends TransformableObject {
 		this.textGeom.setString(text);
 		this.textShape.setGeometry(textGeom);
 		createBack();
+		addChild(labelGroup);
 	}
 	
 	private void createBack() {
 		if (backGroup != null) {
-			this.removeChild(backGroup);
+			removeChild(backGroup);
 		}
 		backGroup = new TransformGroup();
 	    backPosition = new Transform3D();
@@ -88,7 +90,7 @@ public class Label extends TransformableObject {
 	    double textWidth = upper.x-lower.x;
 		backBox = new Box(0.60f*(float)textWidth,1f*(float)textHeight,0.1f,backAppearance);
 		backGroup.addChild(backBox);
-		this.addChild(backGroup);
+		labelGroup.addChild(backGroup);
 	}
 	
 	public static void main(String[] args) {

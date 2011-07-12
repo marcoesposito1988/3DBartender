@@ -19,6 +19,7 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.behaviors.keyboard.KeyNavigatorBehavior;
+import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import de.tum.in.far.threedui.bartender.ModelFactory.ModelType;
@@ -164,19 +165,19 @@ public class TestViewer {
 		BranchGroup bg = new BranchGroup();
 		TransformGroup tg = new TransformGroup();
 		Transform3D t3d = new Transform3D();
-		t3d.setScale(10);
+		t3d.setScale(0.1);
 		tg.setTransform(t3d);
-		ModelObject glass = null;
-		try {
-			//glass = ModelFactory.loadModel("bar-set" + File.separator + "cocktail-glass.blend", ModelType.BLEND);
-			glass = ModelFactory.loadModel("Straw.wrl", ModelType.VRML);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		tg.addChild(glass);
+
+//		ModelObject model = null;
+//		model = ModelFactory.loadVRMLModel("Sheep.wrl");
+		Box model = new Box(0.2f,0.2f,0.2f, new BlueAppearance());
+		TransformableObject to = new TransformableObject();
+		to.addChild(model);
+		
+		tg.addChild(to);
 		bg.addChild(tg);
 		exercise1.addObject(bg);
+		exercise1.addCameraDisplacement(new Vector3d(0,0,0.6));
 	}
 	
 }

@@ -12,35 +12,38 @@ public class Bartender {
 	ModelObject glassObject;
 	TransformableObject glassTransfObject;
 	
-	BranchGroup menuGroup = new BranchGroup();
-//	MenuBehavior menuBehavior;
+	BranchGroup globalGroup = new BranchGroup();
 	
 	public Bartender() {
 		ubitrackManager = new UbitrackManager();
+		
+		globalGroup.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+		globalGroup.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
+		globalGroup.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
 	}
 	
 	public void start() {
-		MenuItemBehavior.setEnvironment(menu, pointer);
+		GlobalStatus.setEnvironment(pointer, menu, glass);
 		
 		ubitrackManager.prepareTracking();
 
-		PoseReceiver pointerReceiver = ubitrackManager.getReceiverForMarker("posesink");
-		PoseReceiver menuReceiver = ubitrackManager.getReceiverForMarker("posesink3");
-		PoseReceiver glassReceiver = ubitrackManager.getReceiverForMarker("posesink4");
+		ObstructablePoseReceiver pointerReceiver = ubitrackManager.getObstructableReceiverForMarker("posesink4");
+		ObstructablePoseReceiver menuReceiver = ubitrackManager.getObstructableReceiverForMarker("posesink3");
+		ObstructablePoseReceiver glassReceiver = ubitrackManager.getObstructableReceiverForMarker("posesink");
 
 		ubitrackManager.startTracking();
-		
-		ubitrackManager.addObjectToViewer(pointer);
-		ubitrackManager.addObjectToViewer(menu);
-		ubitrackManager.addObjectToViewer(glass);
 		
 		pointer.setPoseReceiver(pointerReceiver);
 		menu.setPoseReceiver(menuReceiver);
 		glass.setPoseReceiver(glassReceiver);
 
 		menu.showCategory("root");
-
-		ubitrackManager.addObjectToViewer(menuGroup);
+		
+		pointer.parent = globalGroup;
+		glass.parent = globalGroup;
+		menu.parent = globalGroup;
+		
+		ubitrackManager.addObjectToViewer(globalGroup);
 
 	}
 

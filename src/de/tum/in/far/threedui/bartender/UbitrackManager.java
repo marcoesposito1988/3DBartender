@@ -9,7 +9,7 @@ public class UbitrackManager {
 	private String appName = "3D Bartender";
 	
 	private UbitrackFacade ubitrackFacade;
-	private MessageViewer viewer;
+	MessageViewer viewer;
 	
 	private ImageReceiver imageReceiver;
 	
@@ -41,6 +41,12 @@ public class UbitrackManager {
 	
 	public PoseReceiver getReceiverForMarker(String markerId) {
 		PoseReceiver ret = new PoseReceiver();
+		ubitrackFacade.setPoseCallback(markerId, ret);
+		return ret;
+	}
+	
+	public ObstructablePoseReceiver getObstructableReceiverForMarker(String markerId) {
+		ObstructablePoseReceiver ret = new ObstructablePoseReceiver();
 		ubitrackFacade.setPoseCallback(markerId, ret);
 		return ret;
 	}

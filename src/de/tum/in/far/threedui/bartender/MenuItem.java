@@ -28,9 +28,13 @@ public class MenuItem extends TransformableObject {
 	private String labelText;
 	private int labelHeight;
 	
-	private MenuItemBehavior behavior;
+	MenuItemBehavior behavior;
 	
 	public MenuItem(String name, String labelText, TransformableObject model, boolean isCategory) {
+		modelGroup.setCapability(ALLOW_CHILDREN_EXTEND);
+		modelGroup.setCapability(ALLOW_CHILDREN_WRITE);
+		modelGroup.setCapability(ALLOW_CHILDREN_READ);
+		
 		this.name = name;
 		this.isCategory = isCategory;
 		setModel(model);
@@ -55,6 +59,15 @@ public class MenuItem extends TransformableObject {
 	public void setModelScaling(double factor) {
 		modelPosition.setScale(factor);
 		modelGroup.setTransform(modelPosition);
+	}
+	
+	public TransformableObject detachModel() {
+		model.detach();
+		return model;
+	}
+	
+	public void reattachModel() {
+		globalGroup.addChild(model);
 	}
 	
 	public void setLabel(String labelText) {
@@ -93,6 +106,7 @@ public class MenuItem extends TransformableObject {
 	
 	public void armBehavior() {
 		behavior.setSchedulingBounds(new BoundingSphere());
+
 	}
 
 }

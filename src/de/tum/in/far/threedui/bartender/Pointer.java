@@ -1,18 +1,18 @@
 package de.tum.in.far.threedui.bartender;
 
-import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Group;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 
-import com.sun.j3d.utils.geometry.Box;
-
-public class Pointer extends TransformableObject {
+public class Pointer extends CollidableObject {
 
 	protected TransformableObject model;
 	protected ArrowObject arrow;
 	
 	protected TransformGroup offset = new TransformGroup();
 	protected Transform3D pointerPosition = new Transform3D();
+	
+	protected Group attachedModel;
 	
 	public Pointer() {
 		offset.setCapability(ALLOW_CHILDREN_EXTEND);
@@ -43,7 +43,17 @@ public class Pointer extends TransformableObject {
 		offset.setTransform(pointerPosition);
 	}
 	
-
+	public void attachModel(Group model) {
+		attachedModel = model;
+		offset.removeAllChildren();
+		offset.addChild(model);
+	}
+	
+	public TransformableObject detachModel() {
+		offset.removeAllChildren();
+		offset.addChild(model);
+		return (TransformableObject) attachedModel;
+	}
 	
 	/**
 	 * @param args
