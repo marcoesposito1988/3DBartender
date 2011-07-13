@@ -30,9 +30,11 @@ public class MenuItemBehavior extends Behavior {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void processStimulus(Enumeration criteria) {
+		System.out.println("MenuItem detected collision");
 		if (GlobalStatus.menu.viewable == true && justVisualized == false) {
 			WakeupOnCollisionEntry ev;
 			WakeupCriterion genericEvt;
+			System.out.println("MenuItem processing stimulus");
 			
 			while (criteria.hasMoreElements()) {
 				genericEvt = (WakeupCriterion) criteria.nextElement();
@@ -52,6 +54,8 @@ public class MenuItemBehavior extends Behavior {
 							}, VISUALIZATION_TIME);
 						} else {
 							GlobalStatus.pointer.attachModel(menuItem.detachModel());
+							GlobalStatus.selectedItem = menuItem;
+							return;
 						}
 					}
 				}

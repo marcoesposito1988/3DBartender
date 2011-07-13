@@ -45,17 +45,18 @@ public class WorkbenchBehavior extends Behavior {
 			genericEvt = (WakeupCriterion) criteria.nextElement();
 			if (genericEvt instanceof WakeupOnCollisionEntry){
 				ev = (WakeupOnCollisionEntry) genericEvt;
-				System.out.println("COLLISION");
-				System.out.println("with glass, "+times+++" times");
+				if (GlobalStatus.selectedItem != null) {
+					String ingredient = GlobalStatus.selectedItem.getName();
+					GlobalStatus.status.addIngredient(ingredient);
+					GlobalStatus.pointer.detachModel();
+					GlobalStatus.selectedItem.reattachModel();
+					GlobalStatus.menu.showCategory("root");
+					System.out.println("Added "+GlobalStatus.selectedItem.getName());
+				}
 			}
 		}
 		
 		wakeupOn(new WakeupOnCollisionEntry(wbItem.transGroup.getChild(0)));
-	}
-	
-	protected void pouredStuff(){
-		pointer.detachModel();
-		GlobalStatus.selectedItem.reattachModel();
 	}
 
 }

@@ -28,8 +28,6 @@ public class Menu extends CollidableObject {
 	protected TransformGroup menuItemsGroup = new TransformGroup();
 	protected Transform3D menuItemsPosition = new Transform3D();
 	
-
-	
 	PoseReceiver poseReceiver;
 	
 	public Menu() {

@@ -74,7 +74,7 @@ public class CollidableObject extends TransformableObject {
 			@Override
 			public void run() {
 				if (viewable) {
-					System.out.println("Timer elapsed: removing object from screen");
+					System.out.println(getClass().getName()+", timer elapsed: removing object from screen");
 					stopBehavior();
 					try {
 						Thread.sleep(REMOVE_DELAY);
