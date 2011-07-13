@@ -17,6 +17,10 @@ public class Recipe {
 		
 	}
 	
+	public Recipe() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Status verify(Recipe solution) {
 		//TODO Anke: compares contents of "solution" with its own, returns a value from Status
 		

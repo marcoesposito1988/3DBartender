@@ -9,9 +9,10 @@ import javax.vecmath.Vector3d;
 
 public class Glass extends WorkbenchItem {
 	
-	protected String modelFileName = "bar-set" + File.separator + "cocktail-glass.obj";
+	protected String modelFileName = "bar-set" + File.separator + "cocktail-glass.blend";
 	
-	protected ModelObject model;
+	//protected ModelObject model;
+	protected GlassObject model;
 	
 	protected TransformGroup adjustGroup = new TransformGroup();
 	protected TransformGroup animationGroup = new TransformGroup();
@@ -27,11 +28,13 @@ public class Glass extends WorkbenchItem {
 	}
 	
 	public Glass() {
-		model = ModelFactory.loadObjModel(modelFileName);
+		//model = ModelFactory.loadBlendModel(modelFileName);
+		
+		model = new GlassObject();
 		Transform3D adjust = new Transform3D();
 		adjust.rotX(Math.PI/2);
 		adjust.setTranslation(new Vector3d(0,0,0.02));
-		adjust.setScale(0.1);
+		adjust.setScale(5);
 		adjustGroup.setTransform(adjust);
 		animationGroup.addChild(model);
 		adjustGroup.addChild(animationGroup);

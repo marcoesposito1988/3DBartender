@@ -67,7 +67,7 @@ public class MenuItem extends TransformableObject {
 	}
 	
 	public void reattachModel() {
-		globalGroup.addChild(model);
+		modelGroup.addChild(model);
 	}
 	
 	public void setLabel(String labelText) {

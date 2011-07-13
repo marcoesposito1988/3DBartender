@@ -12,6 +12,8 @@ public class Bartender {
 	ModelObject glassObject;
 	TransformableObject glassTransfObject;
 	
+	Recipe currentStatus = new Recipe();
+	
 	BranchGroup globalGroup = new BranchGroup();
 	
 	public Bartender() {
@@ -24,6 +26,7 @@ public class Bartender {
 	
 	public void start() {
 		GlobalStatus.setEnvironment(pointer, menu, glass);
+		GlobalStatus.status  = currentStatus;
 		
 		ubitrackManager.prepareTracking();
 

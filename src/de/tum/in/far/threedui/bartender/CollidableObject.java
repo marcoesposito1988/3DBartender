@@ -13,7 +13,7 @@ public class CollidableObject extends TransformableObject {
 	// transGroup is used for adjustment, poseGroup for receiving poses
 	TransformGroup poseGroup = new TransformGroup();
 	
-	public static final int REMOVE_DELAY = 2000;
+	public static final int REMOVE_DELAY = 100000;
 	
 	Behavior behavior = null;
 	
