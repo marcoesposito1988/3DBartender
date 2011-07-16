@@ -13,8 +13,10 @@ public class MenuItemBehavior extends Behavior {
 	int times = 0;
 	
 	static boolean justVisualized = false;
-	protected Timer visualizationTimer = new Timer();
+	protected static Timer visualizationTimer = new Timer();
 	static final int VISUALIZATION_TIME = 1000;
+	
+	static boolean selectionMutex = false;
 	
 	MenuItem menuItem;
 	
@@ -30,7 +32,13 @@ public class MenuItemBehavior extends Behavior {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void processStimulus(Enumeration criteria) {
-		System.out.println("MenuItem detected collision");
+		System.out.println("MenuItem "+menuItem.getName()+"  detected collision");
+		if (justVisualized)
+			System.out.println("justVisualized is true, waiting");
+		if (GlobalStatus.menu.viewable == false)
+			System.out.println("menu is not viewable");
+		if (GlobalStatus.pointer.viewable == false)
+			System.out.println("pointer is not viewable");
 		if (GlobalStatus.menu.viewable == true && justVisualized == false) {
 			WakeupOnCollisionEntry ev;
 			WakeupCriterion genericEvt;
@@ -39,7 +47,7 @@ public class MenuItemBehavior extends Behavior {
 			while (criteria.hasMoreElements()) {
 				genericEvt = (WakeupCriterion) criteria.nextElement();
 				if (genericEvt instanceof WakeupOnCollisionEntry){
-					if (GlobalStatus.pointer.viewable == true) {
+					if (GlobalStatus.pointer.viewable == true && selectionMutex == false) {
 						// get selected item, put it in pointer
 						if (menuItem.isCategory) {
 							justVisualized = true;
@@ -52,7 +60,9 @@ public class MenuItemBehavior extends Behavior {
 									
 								}
 							}, VISUALIZATION_TIME);
+							return;
 						} else {
+							selectionMutex = true;
 							GlobalStatus.pointer.attachModel(menuItem.detachModel());
 							GlobalStatus.selectedItem = menuItem;
 							return;
@@ -60,8 +70,9 @@ public class MenuItemBehavior extends Behavior {
 					}
 				}
 			}
-			wakeupOn(new WakeupOnCollisionEntry(menuItem.modelGroup.getChild(0)));
 		}
+		System.out.println("rearming behavior for menuItem "+menuItem.getName());
+		wakeupOn(new WakeupOnCollisionEntry(menuItem.modelGroup.getChild(0)));
 		
 	}
 	

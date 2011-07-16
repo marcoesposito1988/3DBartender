@@ -6,6 +6,8 @@ import javax.media.j3d.Behavior;
 import javax.media.j3d.WakeupCriterion;
 import javax.media.j3d.WakeupOnCollisionEntry;
 
+import de.tum.in.far.threedui.bartender.Recipe.Status;
+
 public class WorkbenchBehavior extends Behavior {
 	
 	static Pointer pointer;
@@ -51,7 +53,19 @@ public class WorkbenchBehavior extends Behavior {
 					GlobalStatus.pointer.detachModel();
 					GlobalStatus.selectedItem.reattachModel();
 					GlobalStatus.menu.showCategory("root");
+					GlobalStatus.status.addIngredient(GlobalStatus.selectedItem.getName());
+					Recipe.Status status = GlobalStatus.recipe.verify(GlobalStatus.status);
+					if (status == Status.COMPLETE) {
+						// do success animation
+						System.out.println("SUCCESS!!");
+					}
+					if (status == Status.WRONG) {
+						// do fail animation
+						System.out.println("FAIL!!!");
+					}
 					System.out.println("Added "+GlobalStatus.selectedItem.getName());
+					GlobalStatus.selectedItem = null;
+					MenuItemBehavior.selectionMutex = false;
 				}
 			}
 		}

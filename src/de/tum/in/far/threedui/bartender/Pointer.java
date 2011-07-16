@@ -51,8 +51,10 @@ public class Pointer extends CollidableObject {
 	
 	public TransformableObject detachModel() {
 		offset.removeAllChildren();
-		offset.addChild(model);
-		return (TransformableObject) attachedModel;
+		offset.addChild(arrow);
+		Group ret = attachedModel;
+		attachedModel = null;
+		return (TransformableObject) ret;
 	}
 	
 	/**

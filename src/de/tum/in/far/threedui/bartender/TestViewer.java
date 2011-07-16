@@ -1,9 +1,12 @@
 package de.tum.in.far.threedui.bartender;
 
+import java.awt.Color;
 import java.awt.GraphicsConfiguration;
-import java.io.File;
+import java.awt.event.KeyEvent;
+import java.util.Enumeration;
 
 import javax.media.j3d.AmbientLight;
+import javax.media.j3d.Behavior;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
@@ -11,6 +14,7 @@ import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.PointLight;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.media.j3d.WakeupOnAWTEvent;
 import javax.swing.JFrame;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
@@ -19,10 +23,7 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.behaviors.keyboard.KeyNavigatorBehavior;
-import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.universe.SimpleUniverse;
-
-import de.tum.in.far.threedui.bartender.ModelFactory.ModelType;
 
 public class TestViewer {
 	
@@ -165,15 +166,38 @@ public class TestViewer {
 		BranchGroup bg = new BranchGroup();
 		TransformGroup tg = new TransformGroup();
 		Transform3D t3d = new Transform3D();
-		t3d.setScale(0.1);
+		t3d.setScale(4);
 		tg.setTransform(t3d);
 
 //		ModelObject model = null;
 //		model = ModelFactory.loadVRMLModel("Sheep.wrl");
-		Box model = new Box(0.2f,0.2f,0.2f, new BlueAppearance());
+		final GlassObject model = new GlassObject();
 		TransformableObject to = new TransformableObject();
 		to.addChild(model);
 		
+		Behavior beh = new Behavior() {
+			boolean pressed = true;
+
+			@Override
+			public void initialize() {
+				wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
+				
+			}
+
+			@Override
+			public void processStimulus(Enumeration arg0) {
+				System.out.println("understood");
+				pressed = !pressed;
+				if (pressed)
+					model.setColor(new Color3f(Color.blue));
+				else
+					model.setTransparent();
+				wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
+			}
+			
+		};
+		bg.addChild(beh);
+		beh.setSchedulingBounds(new BoundingSphere());
 		tg.addChild(to);
 		bg.addChild(tg);
 		exercise1.addObject(bg);

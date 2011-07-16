@@ -13,11 +13,13 @@ public class Bartender {
 	TransformableObject glassTransfObject;
 	
 	Recipe currentStatus = new Recipe();
+	Recipe targetRecipe = null;
 	
 	BranchGroup globalGroup = new BranchGroup();
 	
 	public Bartender() {
 		ubitrackManager = new UbitrackManager();
+		RecipeFactory.loadRecipes();
 		
 		globalGroup.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
 		globalGroup.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
@@ -27,6 +29,8 @@ public class Bartender {
 	public void start() {
 		GlobalStatus.setEnvironment(pointer, menu, glass);
 		GlobalStatus.status  = currentStatus;
+		targetRecipe = RecipeFactory.getRandomRecipe();
+		GlobalStatus.recipe = targetRecipe;
 		
 		ubitrackManager.prepareTracking();
 
@@ -48,7 +52,12 @@ public class Bartender {
 		
 		ubitrackManager.addObjectToViewer(globalGroup);
 
+		ubitrackManager.viewer.setMessageText(targetRecipe.name);
 	}
+	
+//	public void reset() {
+//		menu.showCategory("root");
+//	}
 
 	/**
 	 * @param args
@@ -56,6 +65,7 @@ public class Bartender {
 	public static void main(String[] args) {
 		Bartender bart = new Bartender();
 		bart.start();
+		
 	}
 
 }

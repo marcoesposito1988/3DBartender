@@ -65,9 +65,11 @@ public class MenuData {
 		Node<MenuItemData> alcoholics = menuData.getRootElement().addChild(createCategory("Alcoholics","Sheep.wrl",ModelType.VRML, 0.01,new Vector3d(0,0,0)));
 		alcoholics.addChild(createItem("Gin",BOTTLE_MODEL,BOTTLE_TYPE));
 		alcoholics.addChild(createItem("Rum", BOTTLE_MODEL,BOTTLE_TYPE));
+		alcoholics.addChild(createItem("Vodka", BOTTLE_MODEL,BOTTLE_TYPE));
 		Node<MenuItemData> non_alcoholics = menuData.getRootElement().addChild(createCategory("Non-Alcoholics",BOTTLE_MODEL,BOTTLE_TYPE));
 		non_alcoholics.addChild(createItem("Tonic",BOTTLE_MODEL,BOTTLE_TYPE));
 		non_alcoholics.addChild(createItem("Cola",BOTTLE_MODEL,BOTTLE_TYPE));
+		non_alcoholics.addChild(createItem("RedBull", BOTTLE_MODEL,BOTTLE_TYPE));
 	}
 	
 //	public MenuData(String dataFileName) {

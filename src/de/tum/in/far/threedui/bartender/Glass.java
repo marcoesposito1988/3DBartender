@@ -1,7 +1,5 @@
 package de.tum.in.far.threedui.bartender;
 
-import java.io.File;
-
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -9,9 +7,9 @@ import javax.vecmath.Vector3d;
 
 public class Glass extends WorkbenchItem {
 	
-	protected String modelFileName = "bar-set" + File.separator + "cocktail-glass.blend";
+//	protected String modelFileName = "bar-set" + File.separator + "cocktail-glass.obj";
+//	protected ModelType modelFileType = ModelType.OBJ; 
 	
-	//protected ModelObject model;
 	protected GlassObject model;
 	
 	protected TransformGroup adjustGroup = new TransformGroup();
@@ -28,9 +26,14 @@ public class Glass extends WorkbenchItem {
 	}
 	
 	public Glass() {
-		//model = ModelFactory.loadBlendModel(modelFileName);
-		
+//		try {
+//			model = ModelFactory.loadModel(modelFileName, modelFileType);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		model = new GlassObject();
+		
 		Transform3D adjust = new Transform3D();
 		adjust.rotX(Math.PI/2);
 		adjust.setTranslation(new Vector3d(0,0,0.02));

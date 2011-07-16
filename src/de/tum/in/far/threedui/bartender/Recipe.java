@@ -1,38 +1,45 @@
 package de.tum.in.far.threedui.bartender;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 public class Recipe {
 	
 	public enum Status { COMPLETE, INCOMPLETE, WRONG };
 	
-	//We could have each tree as a tree and separate between 
-	// addIngredients: directly
-	// addMuddler: take a new layer
-	
-	// M: I will think about how to handle this, I'll let you know
-	
-	public Recipe(String name) {
-		// TODO Anke: sets name, initializes ingredients list as an empty list
-		
-		
-		
-	}
+	public String name;
+	// TODO if we had muddler or shaker, this would be a tree
+	protected Set<String> content;
 	
 	public Recipe() {
-		// TODO Auto-generated constructor stub
+		this.name = "solution";
+		content = new HashSet<String>();
+	}
+	
+	public Recipe(String name) {
+		this.name = name;
+		content = new HashSet<String>();
 	}
 
 	public Status verify(Recipe solution) {
-		//TODO Anke: compares contents of "solution" with its own, returns a value from Status
-		
+		Iterator<String> ingr = solution.content.iterator();
+		while(ingr.hasNext()) {
+			if (!content.contains(ingr.next()))
+				return Status.WRONG;
+		}
+		if (solution.content.size() != content.size())
+			return Status.INCOMPLETE;
+		return Status.COMPLETE;
 	}
 	
 	public void addIngredient(String id) {
-		// TODO tree
-		
-	
+		content.add(id);
 	}
-	public void addMuddler(String id) {
 	
-	}
+	// TODO in case of muddler, shaker ecc
+//	public void addMuddler(String id) {
+//	
+//	}
 
 }
