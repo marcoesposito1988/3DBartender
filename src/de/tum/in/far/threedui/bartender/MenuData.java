@@ -1,6 +1,6 @@
 package de.tum.in.far.threedui.bartender;
 
-import java.io.File;
+import java.awt.Color;
 
 import javax.vecmath.Vector3d;
 
@@ -18,16 +18,18 @@ public class MenuData {
 		MenuItemType type;
 		String modelFileName;
 		ModelType modelType;
+		Color glassColor;
 		double scaling = 1;
 		Vector3d offset = null;
-		public MenuItemData(String name, String modelFileName,ModelType modelType, MenuItemType type) {
+		public MenuItemData(String name, String modelFileName,ModelType modelType, MenuItemType type, Color color) {
 			this.name = name;
 			this.modelFileName = modelFileName;
 			this.type = type;
 			this.modelType = modelType;
+			this.glassColor = color;
 		}
-		public MenuItemData(String name, String modelFileName,ModelType modelType, MenuItemType type, double scaling, Vector3d offset) {
-			this(name,modelFileName,modelType,type);
+		public MenuItemData(String name, String modelFileName,ModelType modelType, MenuItemType type, Color color, double scaling, Vector3d offset) {
+			this(name,modelFileName,modelType,type,color);
 			this.scaling = scaling;
 			this.offset = offset;
 		}
@@ -40,15 +42,15 @@ public class MenuData {
 	}
 	
 	private Node<MenuItemData> createCategory(String name,String modelFileName, ModelType modelType) {
-		return new Node<MenuItemData>(new MenuItemData(name,modelFileName,modelType,MenuItemType.CATEGORY));
+		return new Node<MenuItemData>(new MenuItemData(name,modelFileName,modelType,MenuItemType.CATEGORY,null));
 	}
 	
 	private Node<MenuItemData> createCategory(String name,String modelFileName, ModelType modelType,double scaling, Vector3d offset) {
-		return new Node<MenuItemData>(new MenuItemData(name,modelFileName,modelType,MenuItemType.CATEGORY,scaling,offset));
+		return new Node<MenuItemData>(new MenuItemData(name,modelFileName,modelType,MenuItemType.CATEGORY,null,scaling,offset));
 	}
 	
-	private Node<MenuItemData> createItem(String name,String modelFileName, ModelType modelType) {
-		return new Node<MenuItemData>(new MenuItemData(name,modelFileName,modelType,MenuItemType.ITEM));
+	private Node<MenuItemData> createItem(String name,String modelFileName, ModelType modelType, Color glassColor) {
+		return new Node<MenuItemData>(new MenuItemData(name,modelFileName,modelType,MenuItemType.ITEM, glassColor));
 	}
 	
 	private void loadStaticData() {
@@ -63,13 +65,13 @@ public class MenuData {
 		// testing: sheep menu!
 //		Node<MenuItemData> alcoholics = menuData.getRootElement().addChild(createCategory("Alcoholics","gin.obj",ModelType.OBJ, 0.01,new Vector3d(0,0,0)));
 		Node<MenuItemData> alcoholics = menuData.getRootElement().addChild(createCategory("Alcoholics","Sheep.wrl",ModelType.VRML, 0.01,new Vector3d(0,0,0)));
-		alcoholics.addChild(createItem("Gin",BOTTLE_MODEL,BOTTLE_TYPE));
-		alcoholics.addChild(createItem("Rum", BOTTLE_MODEL,BOTTLE_TYPE));
-		alcoholics.addChild(createItem("Vodka", BOTTLE_MODEL,BOTTLE_TYPE));
-		Node<MenuItemData> non_alcoholics = menuData.getRootElement().addChild(createCategory("Non-Alcoholics",BOTTLE_MODEL,BOTTLE_TYPE));
-		non_alcoholics.addChild(createItem("Tonic",BOTTLE_MODEL,BOTTLE_TYPE));
-		non_alcoholics.addChild(createItem("Cola",BOTTLE_MODEL,BOTTLE_TYPE));
-		non_alcoholics.addChild(createItem("RedBull", BOTTLE_MODEL,BOTTLE_TYPE));
+		alcoholics.addChild(createItem("Gin",BOTTLE_MODEL,BOTTLE_TYPE,Color.white));
+		alcoholics.addChild(createItem("Rum", BOTTLE_MODEL,BOTTLE_TYPE,Color.yellow));
+		alcoholics.addChild(createItem("Vodka", BOTTLE_MODEL,BOTTLE_TYPE,Color.white));
+		Node<MenuItemData> non_alcoholics = menuData.getRootElement().addChild(createCategory("Non-Alcoholics",BOTTLE_MODEL,BOTTLE_TYPE,0.0001,new Vector3d(0,0,0)));
+		non_alcoholics.addChild(createItem("Tonic",BOTTLE_MODEL,BOTTLE_TYPE,Color.white));
+		non_alcoholics.addChild(createItem("Cola",BOTTLE_MODEL,BOTTLE_TYPE,Color.black));
+		non_alcoholics.addChild(createItem("RedBull", BOTTLE_MODEL,BOTTLE_TYPE,Color.orange));
 	}
 	
 //	public MenuData(String dataFileName) {

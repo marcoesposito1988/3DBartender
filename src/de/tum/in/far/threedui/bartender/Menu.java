@@ -1,5 +1,6 @@
 package de.tum.in.far.threedui.bartender;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -60,13 +61,13 @@ public class Menu extends CollidableObject {
 
 	}
 	
-	private MenuItem createMenuItem(String name, String labelText, TransformableObject model, boolean isCategory) {
-		MenuItem newMenuItem = new MenuItem(name,labelText,model,isCategory);
+	private MenuItem createMenuItem(String name, String labelText, TransformableObject model, boolean isCategory, Color color) {
+		MenuItem newMenuItem = new MenuItem(name,labelText,model,isCategory,color);
 		return newMenuItem;
 	}
 	
-	private MenuItem createMenuItem(String name, String labelText, TransformableObject model, boolean isCategory, double scaling, Vector3d offset) {
-		MenuItem newMenuItem = new MenuItem(name,labelText,model,isCategory);
+	private MenuItem createMenuItem(String name, String labelText, TransformableObject model, boolean isCategory, Color color, double scaling, Vector3d offset) {
+		MenuItem newMenuItem = new MenuItem(name,labelText,model,isCategory,color);
 		Transform3D t3d = new Transform3D();
 		t3d.setScale(scaling);
 		t3d.setTranslation(offset);
@@ -84,7 +85,8 @@ public class Menu extends CollidableObject {
 			for (Node<MenuData.MenuItemData> child : tree.children) {
 				createMenuItems(child,"root");
 			}
-			placeMenuItems(catBrGr.getAllChildren(),DEFAULT_GAP);
+			System.out.println("placing menu items for root");
+			placeMenuItems(catBrGr.getAllChildren(),catBrGr.numChildren(),DEFAULT_GAP);
 			return;
 		}
 		if(tree.data.type == MenuItemType.CATEGORY) {
@@ -103,9 +105,9 @@ public class Menu extends CollidableObject {
 			}
 			MenuItem ciao;
 			if(tree.data.offset == null)
-				ciao = createMenuItem(tree.data.name, tree.data.name,model,true);
+				ciao = createMenuItem(tree.data.name, tree.data.name,model,true, tree.data.glassColor);
 			else
-				ciao = createMenuItem(tree.data.name, tree.data.name, model,true,tree.data.scaling,tree.data.offset);
+				ciao = createMenuItem(tree.data.name, tree.data.name, model,true,tree.data.glassColor,tree.data.scaling,tree.data.offset);
 			menuBranches.get(category).addChild(ciao);
 			menuItems.get(category).add(ciao);
 			// continue walking
@@ -120,9 +122,10 @@ public class Menu extends CollidableObject {
 			arrAdj.rotY(Math.PI/2);
 			arrAdj.rotZ(Math.PI/2);
 			arrObj.transGroup.setTransform(arrAdj);
-			MenuItem back = createMenuItem(category, "Back", arrObj,true);
+			MenuItem back = createMenuItem(category, "Back", arrObj,true,null);
 			menuBranches.get(tree.data.name).addChild(back);
-			placeMenuItems(catBrGr.getAllChildren(),DEFAULT_GAP);
+			System.out.println("placing menu items for category: "+tree.data.name);
+			placeMenuItems(catBrGr.getAllChildren(),catBrGr.numChildren(),DEFAULT_GAP);
 		} else {	// tree.data.type == MenuItemType.ITEM
 			// create item
 			System.out.println("created item "+tree.data.name);
@@ -135,20 +138,22 @@ public class Menu extends CollidableObject {
 			}
 			MenuItem ciao;
 			if(tree.data.offset == null)
-				ciao = createMenuItem(tree.data.name, tree.data.name,model,false);
+				ciao = createMenuItem(tree.data.name, tree.data.name,model,false,tree.data.glassColor);
 			else
-				ciao = createMenuItem(tree.data.name, tree.data.name, model,false,tree.data.scaling,tree.data.offset);
+				ciao = createMenuItem(tree.data.name, tree.data.name, model,false,tree.data.glassColor,tree.data.scaling,tree.data.offset);
 			menuBranches.get(category).addChild(ciao);
 			menuItems.get(category).add(ciao);
 		}
 	}
 
-	public void placeMenuItems(Enumeration<? extends TransformableObject> items, double gap) {
+	public void placeMenuItems(Enumeration<MenuItem> items, int number, double gap) {
 		Transform3D myt3d = new Transform3D();
 		int i = 0;
 		while (items.hasMoreElements()){
-			myt3d.setTranslation(new Vector3d((i+0.5-menuBranches.size()/2)*gap,0,0));
-			items.nextElement().transGroup.setTransform(myt3d);
+			MenuItem mi = items.nextElement();
+			myt3d.set(new Vector3d((i-((float)number-1)/2)*gap,0,0));
+			System.out.println("placing MenuItem "+mi.name+" in slot "+(i-((float)number-1)/2));
+			mi.transGroup.setTransform(myt3d);
 			i++;
 		}
 	}

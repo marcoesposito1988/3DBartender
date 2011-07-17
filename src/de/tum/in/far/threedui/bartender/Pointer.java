@@ -61,10 +61,6 @@ public class Pointer extends CollidableObject {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Anke: you can use this main to test the pointer
-		// in case it doesn't work, it may be that I have something wrong:
-		// when you look for errors, check my code as well!
-		
 		// FIRST: create stuff
 		Pointer p = new Pointer();
 		ModelObject sheep = ModelFactory.loadVRMLModel("Sheep.wrl");

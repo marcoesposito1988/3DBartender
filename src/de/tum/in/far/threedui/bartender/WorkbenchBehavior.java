@@ -10,17 +10,11 @@ import de.tum.in.far.threedui.bartender.Recipe.Status;
 
 public class WorkbenchBehavior extends Behavior {
 	
-	static Pointer pointer;
-	static Menu menu;
+	static Bartender bartender;
 	
 	WorkbenchItem wbItem;
 	
 	int times = 0;
-	
-	public static void setEnvironment(Menu m, Pointer p) {
-		menu = m;
-		pointer = p;
-	}
 	
 	public WorkbenchBehavior(WorkbenchItem wbItem) {
 		this.wbItem = wbItem;
@@ -47,24 +41,8 @@ public class WorkbenchBehavior extends Behavior {
 			genericEvt = (WakeupCriterion) criteria.nextElement();
 			if (genericEvt instanceof WakeupOnCollisionEntry){
 				ev = (WakeupOnCollisionEntry) genericEvt;
-				if (GlobalStatus.selectedItem != null) {
-					String ingredient = GlobalStatus.selectedItem.getName();
-					GlobalStatus.status.addIngredient(ingredient);
-					GlobalStatus.pointer.detachModel();
-					GlobalStatus.selectedItem.reattachModel();
-					GlobalStatus.menu.showCategory("root");
-					GlobalStatus.status.addIngredient(GlobalStatus.selectedItem.getName());
-					Recipe.Status status = GlobalStatus.recipe.verify(GlobalStatus.status);
-					if (status == Status.COMPLETE) {
-						// do success animation
-						System.out.println("SUCCESS!!");
-					}
-					if (status == Status.WRONG) {
-						// do fail animation
-						System.out.println("FAIL!!!");
-					}
-					System.out.println("Added "+GlobalStatus.selectedItem.getName());
-					GlobalStatus.selectedItem = null;
+				if (bartender.selectedItem != null) {
+					bartender.itemPoured();
 					MenuItemBehavior.selectionMutex = false;
 				}
 			}

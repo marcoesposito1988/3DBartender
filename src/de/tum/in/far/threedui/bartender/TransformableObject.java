@@ -2,6 +2,7 @@ package de.tum.in.far.threedui.bartender;
 
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Node;
+import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 
 public class TransformableObject extends BranchGroup {
@@ -19,6 +20,10 @@ public class TransformableObject extends BranchGroup {
 	
 	public TransformGroup getTransformGroup() {
 		return transGroup;
+	}
+	
+	public void setTransform(Transform3D t3d) {
+		transGroup.setTransform(t3d);
 	}
 	
 	@Override

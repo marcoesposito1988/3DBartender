@@ -9,9 +9,12 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
 import javax.vecmath.Color3f;
+import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.geometry.Cylinder;
+
+import de.tum.in.far.threedui.bartender.ModelFactory.ModelType;
 
 public class GlassObject extends TransformableObject {
 
@@ -54,7 +57,8 @@ public class GlassObject extends TransformableObject {
 	protected TransformGroup airTg = new TransformGroup();
 	protected TransformGroup liquidTg = new TransformGroup();
 	protected TransformGroup emptyTg = new TransformGroup();
-	protected TransformGroup globalTg = new TransformGroup();
+	protected TransformableObject globalGlassTo = new TransformableObject();
+	protected TransformableObject globalTo = new TransformableObject();
 	
 	protected Transform3D airPos = new Transform3D();
 	protected Transform3D liquidPos = new Transform3D();
@@ -70,6 +74,13 @@ public class GlassObject extends TransformableObject {
 	protected Cylinder empty;
 	
 	protected Switch glassSwitch = new Switch();
+	
+	// objects for animations
+	protected ModelObject umbrella;
+	protected ModelObject straw;
+	protected TransformableObject umbrellaGroup = new TransformableObject();
+	protected TransformableObject strawGroup = new TransformableObject();
+	protected TransformableObject animationTo = new TransformableObject();
 	
 	public GlassObject() {
 		glassSwitch.setCapability(Switch.ALLOW_SWITCH_WRITE);
@@ -94,8 +105,8 @@ public class GlassObject extends TransformableObject {
 	    airAppearance.setMaterial(whiteMat);
 		airAppearance.setTransparencyAttributes(airTransparency);
 	
-		
-		liquidMat = new Material(red, black, red, specular, 25.0f);
+		// TODO work on liquid color
+		liquidMat = new Material(white, black, red, specular, 25.0f);
 		liquidMat.setLightingEnable(true);
 		liquidMat.setCapability(Material.ALLOW_COMPONENT_WRITE);
 		liquidTransparency = new TransparencyAttributes(TransparencyAttributes.BLENDED, LIQUID_TRANSPARENCY);
@@ -116,7 +127,7 @@ public class GlassObject extends TransformableObject {
 
 		airTg.setTransform(airPos);
 		liquidTg.setTransform(liquidPos);
-		globalTg.setTransform(globalPos);
+		globalTo.setTransform(globalPos);
 		
 		emptyTg.addChild(empty);
 		emptyTg.setTransform(emptyPos);
@@ -128,10 +139,30 @@ public class GlassObject extends TransformableObject {
 		glassSwitch.addChild(emptyGroup);
 		glassSwitch.addChild(filledGroup);
 		
-		globalTg.addChild(glassTg);
-		globalTg.addChild(glassSwitch);
+		globalGlassTo.addChild(glassTg);
+		globalGlassTo.addChild(glassSwitch);
 		
-		addChild(globalTg);
+		globalTo.addChild(globalGlassTo);
+		
+		addChild(globalTo);
+		
+		// stuff for animations
+		
+		try {
+			umbrella = ModelFactory.loadModel("Umbrella.wrl", ModelType.VRML);
+			straw = ModelFactory.loadModel("Straw.wrl", ModelType.VRML);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		umbrellaGroup.addChild(umbrella);
+		strawGroup.addChild(straw);
+		animationTo.addChild(umbrellaGroup);
+		animationTo.addChild(strawGroup);
+		Transform3D t3d = new Transform3D();
+		t3d.setScale(0.1);
+		t3d.setTranslation(new Vector3d(0,0.005,0));
+		animationTo.setTransform(t3d);
 		
 		glassSwitch.setWhichChild(0);
 	}
@@ -141,8 +172,18 @@ public class GlassObject extends TransformableObject {
 	}
 	
 	public void setColor(Color3f liquidColor) {
-		liquidMat.setDiffuseColor(liquidColor);
+		liquidMat.setAmbientColor(liquidColor);
 		liquidAppearance.setMaterial(liquidMat);
 		glassSwitch.setWhichChild(1); 
+	}
+	
+	public void doSuccessAnimation() {
+		globalTo.addChild(animationTo);
+	}
+	
+	public void reset() {
+		globalTo.removeAllChildren();
+		globalTo.addChild(globalGlassTo);
+		setTransparent();
 	}
 }

@@ -1,5 +1,7 @@
 package de.tum.in.far.threedui.bartender;
 
+import java.awt.Color;
+
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Transform3D;
@@ -8,7 +10,9 @@ import javax.vecmath.Vector3d;
 
 public class MenuItem extends TransformableObject {
 
-	private String name;
+	String name;
+	Color glassColor;
+	
 	TransformableObject model;
 	private Label label;
 	boolean isCategory;
@@ -22,21 +26,19 @@ public class MenuItem extends TransformableObject {
 	private Transform3D globalPosition = new Transform3D();
 	private TransformGroup globalGroup = new TransformGroup();
 	
-	// Behavior
-	private BranchGroup behaviorGroup = new BranchGroup();
-	
 	private String labelText;
 	private int labelHeight;
 	
 	MenuItemBehavior behavior;
 	
-	public MenuItem(String name, String labelText, TransformableObject model, boolean isCategory) {
+	public MenuItem(String name, String labelText, TransformableObject model, boolean isCategory, Color color) {
 		modelGroup.setCapability(ALLOW_CHILDREN_EXTEND);
 		modelGroup.setCapability(ALLOW_CHILDREN_WRITE);
 		modelGroup.setCapability(ALLOW_CHILDREN_READ);
 		
 		this.name = name;
 		this.isCategory = isCategory;
+		glassColor = color;
 		setModel(model);
 		setLabel(labelText);
 		transGroup.addChild(globalGroup);
@@ -106,7 +108,6 @@ public class MenuItem extends TransformableObject {
 	
 	public void armBehavior() {
 		behavior.setSchedulingBounds(new BoundingSphere());
-
 	}
 
 }

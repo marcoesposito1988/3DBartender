@@ -9,6 +9,7 @@ import javax.media.j3d.WakeupCriterion;
 import javax.media.j3d.WakeupOnCollisionEntry;
 
 public class MenuItemBehavior extends Behavior {
+	static Bartender bartender;
 	
 	int times = 0;
 	
@@ -32,14 +33,17 @@ public class MenuItemBehavior extends Behavior {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void processStimulus(Enumeration criteria) {
+		
+		// TODO debug stuff
 		System.out.println("MenuItem "+menuItem.getName()+"  detected collision");
 		if (justVisualized)
 			System.out.println("justVisualized is true, waiting");
-		if (GlobalStatus.menu.viewable == false)
+		if (bartender.menu.viewable == false)
 			System.out.println("menu is not viewable");
-		if (GlobalStatus.pointer.viewable == false)
+		if (bartender.pointer.viewable == false)
 			System.out.println("pointer is not viewable");
-		if (GlobalStatus.menu.viewable == true && justVisualized == false) {
+		
+		if (bartender.menu.viewable == true && bartender.pointer.viewable == true && justVisualized == false) {
 			WakeupOnCollisionEntry ev;
 			WakeupCriterion genericEvt;
 			System.out.println("MenuItem processing stimulus");
@@ -47,11 +51,11 @@ public class MenuItemBehavior extends Behavior {
 			while (criteria.hasMoreElements()) {
 				genericEvt = (WakeupCriterion) criteria.nextElement();
 				if (genericEvt instanceof WakeupOnCollisionEntry){
-					if (GlobalStatus.pointer.viewable == true && selectionMutex == false) {
+					if (selectionMutex == false) {
 						// get selected item, put it in pointer
 						if (menuItem.isCategory) {
 							justVisualized = true;
-							GlobalStatus.menu.showCategory(menuItem.getName());
+							bartender.menuCategorySelected(menuItem.getName());
 							visualizationTimer.schedule(new TimerTask() {
 								
 								@Override
@@ -63,8 +67,7 @@ public class MenuItemBehavior extends Behavior {
 							return;
 						} else {
 							selectionMutex = true;
-							GlobalStatus.pointer.attachModel(menuItem.detachModel());
-							GlobalStatus.selectedItem = menuItem;
+							bartender.menuItemSelected(menuItem);
 							return;
 						}
 					}
@@ -75,9 +78,5 @@ public class MenuItemBehavior extends Behavior {
 		wakeupOn(new WakeupOnCollisionEntry(menuItem.modelGroup.getChild(0)));
 		
 	}
-	
-//	protected void selectedItem(Node node) {
-//		pointer.attachModel(node);
-//	}
 
 }

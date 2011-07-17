@@ -38,7 +38,6 @@ public class Label extends TransformableObject {
 
 	private Transform3D backPosition;
 	
-	//TODO call Label() then setText
 	public Label(String text) {
 		this();
 		setText(text);

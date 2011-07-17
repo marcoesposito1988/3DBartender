@@ -3,6 +3,7 @@ package de.tum.in.far.threedui.bartender;
 import java.awt.Color;
 import java.awt.GraphicsConfiguration;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.Enumeration;
 
 import javax.media.j3d.AmbientLight;
@@ -166,14 +167,15 @@ public class TestViewer {
 		BranchGroup bg = new BranchGroup();
 		TransformGroup tg = new TransformGroup();
 		Transform3D t3d = new Transform3D();
-		t3d.setScale(4);
+		t3d.setScale(10);
 		tg.setTransform(t3d);
 
 //		ModelObject model = null;
-//		model = ModelFactory.loadVRMLModel("Sheep.wrl");
+//		model = ModelFactory.loadObjModel("vodka.obj");
+//		model = ModelFactory.loadVRMLModel("Umbrella.wrl");
 		final GlassObject model = new GlassObject();
-		TransformableObject to = new TransformableObject();
-		to.addChild(model);
+//		TransformableObject to = new TransformableObject();
+//		to.addChild(model);
 		
 		Behavior beh = new Behavior() {
 			boolean pressed = true;
@@ -189,16 +191,16 @@ public class TestViewer {
 				System.out.println("understood");
 				pressed = !pressed;
 				if (pressed)
-					model.setColor(new Color3f(Color.blue));
+					model.doSuccessAnimation();
 				else
-					model.setTransparent();
+					model.reset();
 				wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
 			}
 			
 		};
 		bg.addChild(beh);
 		beh.setSchedulingBounds(new BoundingSphere());
-		tg.addChild(to);
+		tg.addChild(model);
 		bg.addChild(tg);
 		exercise1.addObject(bg);
 		exercise1.addCameraDisplacement(new Vector3d(0,0,0.6));
