@@ -69,9 +69,9 @@ public class Menu extends CollidableObject {
 	private MenuItem createMenuItem(String name, String labelText, TransformableObject model, boolean isCategory, Color color, double scaling, Vector3d offset) {
 		MenuItem newMenuItem = new MenuItem(name,labelText,model,isCategory,color);
 		Transform3D t3d = new Transform3D();
-		t3d.setScale(scaling);
 		t3d.setTranslation(offset);
-		newMenuItem.transGroup.setTransform(t3d);
+		t3d.setScale(scaling);
+		newMenuItem.modelGroup.setTransform(t3d);
 		return newMenuItem;
 	}
 	
@@ -96,18 +96,21 @@ public class Menu extends CollidableObject {
 			catBrGr.setCapability(BranchGroup.ALLOW_DETACH);
 			menuBranches.put(tree.data.name, catBrGr);
 			menuItems.put(tree.data.name, new ArrayList<MenuItem>());
-			ModelObject model = null;
-			try {
-				model = ModelFactory.loadModel(tree.data.modelFileName, tree.data.modelType);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			ModelObject model = null;
+//			try {
+//				model = ModelFactory.loadModel(tree.data.modelFileName, tree.data.modelType);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			BottleObject model = new BottleObject();
 			MenuItem ciao;
-			if(tree.data.offset == null)
+			if(tree.data.offset == null) {
 				ciao = createMenuItem(tree.data.name, tree.data.name,model,true, tree.data.glassColor);
-			else
+			} else {
+				System.out.println("adding offset and scaling");
 				ciao = createMenuItem(tree.data.name, tree.data.name, model,true,tree.data.glassColor,tree.data.scaling,tree.data.offset);
+			}
 			menuBranches.get(category).addChild(ciao);
 			menuItems.get(category).add(ciao);
 			// continue walking
@@ -129,13 +132,14 @@ public class Menu extends CollidableObject {
 		} else {	// tree.data.type == MenuItemType.ITEM
 			// create item
 			System.out.println("created item "+tree.data.name);
-			ModelObject model = null;
-			try {
-				model = ModelFactory.loadModel(tree.data.modelFileName, tree.data.modelType);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			ModelObject model = null;
+//			try {
+//				model = ModelFactory.loadModel(tree.data.modelFileName, tree.data.modelType);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			BottleObject model = new BottleObject();
 			MenuItem ciao;
 			if(tree.data.offset == null)
 				ciao = createMenuItem(tree.data.name, tree.data.name,model,false,tree.data.glassColor);

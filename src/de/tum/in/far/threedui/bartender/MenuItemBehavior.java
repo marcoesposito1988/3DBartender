@@ -5,8 +5,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.media.j3d.Behavior;
+import javax.media.j3d.BoundingBox;
+import javax.media.j3d.BoundingSphere;
+import javax.media.j3d.Group;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
 import javax.media.j3d.WakeupCriterion;
 import javax.media.j3d.WakeupOnCollisionEntry;
+import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
+
+import com.sun.j3d.utils.geometry.Box;
 
 public class MenuItemBehavior extends Behavior {
 	static Bartender bartender;
@@ -16,6 +25,7 @@ public class MenuItemBehavior extends Behavior {
 	static boolean justVisualized = false;
 	protected static Timer visualizationTimer = new Timer();
 	static final int VISUALIZATION_TIME = 1000;
+	protected BoundingBox mybox;
 	
 	static boolean selectionMutex = false;
 	
@@ -27,7 +37,8 @@ public class MenuItemBehavior extends Behavior {
 
 	@Override
 	public void initialize() {
-		wakeupOn(new WakeupOnCollisionEntry(menuItem.modelGroup.getChild(0)));
+		wakeupOn(new WakeupOnCollisionEntry(menuItem));
+
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -75,7 +86,7 @@ public class MenuItemBehavior extends Behavior {
 			}
 		}
 		System.out.println("rearming behavior for menuItem "+menuItem.getName());
-		wakeupOn(new WakeupOnCollisionEntry(menuItem.modelGroup.getChild(0)));
+		wakeupOn(new WakeupOnCollisionEntry(menuItem));
 		
 	}
 

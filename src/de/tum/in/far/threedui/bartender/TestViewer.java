@@ -8,6 +8,7 @@ import java.util.Enumeration;
 
 import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Behavior;
+import javax.media.j3d.BoundingBox;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
@@ -24,6 +25,8 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.behaviors.keyboard.KeyNavigatorBehavior;
+import com.sun.j3d.utils.geometry.Box;
+import com.sun.j3d.utils.geometry.Sphere;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 public class TestViewer {
@@ -167,39 +170,39 @@ public class TestViewer {
 		BranchGroup bg = new BranchGroup();
 		TransformGroup tg = new TransformGroup();
 		Transform3D t3d = new Transform3D();
-		t3d.setScale(10);
+		t3d.setScale(2);
 		tg.setTransform(t3d);
 
-//		ModelObject model = null;
-//		model = ModelFactory.loadObjModel("vodka.obj");
+		BottleObject model = new BottleObject();
 //		model = ModelFactory.loadVRMLModel("Umbrella.wrl");
-		final GlassObject model = new GlassObject();
+//		final GlassObject model = new GlassObject();
 //		TransformableObject to = new TransformableObject();
 //		to.addChild(model);
 		
-		Behavior beh = new Behavior() {
-			boolean pressed = true;
-
-			@Override
-			public void initialize() {
-				wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
-				
-			}
-
-			@Override
-			public void processStimulus(Enumeration arg0) {
-				System.out.println("understood");
-				pressed = !pressed;
-				if (pressed)
-					model.doSuccessAnimation();
-				else
-					model.reset();
-				wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
-			}
-			
-		};
-		bg.addChild(beh);
-		beh.setSchedulingBounds(new BoundingSphere());
+//		Behavior beh = new Behavior() {
+//			boolean pressed = true;
+//
+//			@Override
+//			public void initialize() {
+//				wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
+//				
+//			}
+//
+//			@Override
+//			public void processStimulus(Enumeration arg0) {
+//				System.out.println("understood");
+//				pressed = !pressed;
+//				if (pressed)
+//					model.doSuccessAnimation();
+//				else
+//					model.reset();
+//				wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
+//			}
+//			
+//		};
+//		bg.addChild(beh);
+//		beh.setSchedulingBounds(new BoundingSphere());
+		model.setBottleAppearance(new BlueAppearance());
 		tg.addChild(model);
 		bg.addChild(tg);
 		exercise1.addObject(bg);
