@@ -17,7 +17,7 @@ import de.tum.in.far.threedui.bartender.MenuData.MenuItemType;
 
 public class Menu extends CollidableObject {
 	
-	public static final double DEFAULT_GAP = 0.18;	
+	public static final double DEFAULT_GAP = 0.20;	
 	
 	// STORE
 	protected MenuData menuData;

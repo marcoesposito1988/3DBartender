@@ -10,8 +10,8 @@ public class MenuData {
 	// TODO differentiate bottles
 	private static final String BOTTLE_MODEL = "vodka.obj";
 	private static final ModelType BOTTLE_TYPE = ModelType.OBJ;
-	private static final float BOTTLE_SCALING = 0.01f;
-	private static final Vector3d BOTTLE_OFFSET = new Vector3d(0,-0.08,0);
+	private static final float BOTTLE_SCALING = 2f;
+	private static final Vector3d BOTTLE_OFFSET = new Vector3d(0,-0.05,0);
 	
 	public enum MenuItemType { ITEM, CATEGORY };
 	
@@ -70,14 +70,14 @@ public class MenuData {
 		
 		// testing: sheep menu!
 //		Node<MenuItemData> alcoholics = menuData.getRootElement().addChild(createCategory("Alcoholics","gin.obj",ModelType.OBJ, 0.01,new Vector3d(0,0,0)));
-		Node<MenuItemData> alcoholics = menuData.getRootElement().addChild(createCategory("Alcoholics",BOTTLE_MODEL,BOTTLE_TYPE));
-		alcoholics.addChild(createItem("Gin",BOTTLE_MODEL,BOTTLE_TYPE,Color.white));
-		alcoholics.addChild(createItem("Rum", BOTTLE_MODEL,BOTTLE_TYPE,Color.yellow));
-		alcoholics.addChild(createItem("Vodka", BOTTLE_MODEL,BOTTLE_TYPE,Color.white));
-		Node<MenuItemData> non_alcoholics = menuData.getRootElement().addChild(createCategory("Non-Alcoholics",BOTTLE_MODEL,BOTTLE_TYPE));
-		non_alcoholics.addChild(createItem("Tonic",BOTTLE_MODEL,BOTTLE_TYPE,Color.white));
-		non_alcoholics.addChild(createItem("Cola",BOTTLE_MODEL,BOTTLE_TYPE,Color.black));
-		non_alcoholics.addChild(createItem("RedBull", BOTTLE_MODEL,BOTTLE_TYPE,Color.orange));
+		Node<MenuItemData> alcoholics = menuData.getRootElement().addChild(createCategory("Alcoholics",BOTTLE_MODEL,BOTTLE_TYPE,BOTTLE_SCALING,BOTTLE_OFFSET));
+		alcoholics.addChild(createItem("Gin",BOTTLE_MODEL,BOTTLE_TYPE,Color.white,BOTTLE_SCALING,BOTTLE_OFFSET));
+		alcoholics.addChild(createItem("Rum", BOTTLE_MODEL,BOTTLE_TYPE,Color.yellow,BOTTLE_SCALING,BOTTLE_OFFSET));
+		alcoholics.addChild(createItem("Vodka", BOTTLE_MODEL,BOTTLE_TYPE,Color.white,BOTTLE_SCALING,BOTTLE_OFFSET));
+		Node<MenuItemData> non_alcoholics = menuData.getRootElement().addChild(createCategory("Non-Alcoholics",BOTTLE_MODEL,BOTTLE_TYPE,BOTTLE_SCALING,BOTTLE_OFFSET));
+		non_alcoholics.addChild(createItem("Tonic",BOTTLE_MODEL,BOTTLE_TYPE,Color.white,BOTTLE_SCALING,BOTTLE_OFFSET));
+		non_alcoholics.addChild(createItem("Cola",BOTTLE_MODEL,BOTTLE_TYPE,Color.black,BOTTLE_SCALING,BOTTLE_OFFSET));
+		non_alcoholics.addChild(createItem("RedBull", BOTTLE_MODEL,BOTTLE_TYPE,Color.orange,BOTTLE_SCALING,BOTTLE_OFFSET));
 	}
 	
 //	public MenuData(String dataFileName) {

@@ -89,6 +89,7 @@ public class Bartender {
 		currentStatus.addIngredient(ingredient);
 		glass.pourStuff(selectedItem.glassColor);
 		pointer.detachModel();
+		selectedItem.behavior.selected = false;
 		selectedItem.reattachModel();
 		menu.showCategory("root");
 		currentStatus.addIngredient(selectedItem.getName());

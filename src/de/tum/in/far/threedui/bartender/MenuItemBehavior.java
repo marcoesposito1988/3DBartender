@@ -6,16 +6,8 @@ import java.util.TimerTask;
 
 import javax.media.j3d.Behavior;
 import javax.media.j3d.BoundingBox;
-import javax.media.j3d.BoundingSphere;
-import javax.media.j3d.Group;
-import javax.media.j3d.Transform3D;
-import javax.media.j3d.TransformGroup;
 import javax.media.j3d.WakeupCriterion;
 import javax.media.j3d.WakeupOnCollisionEntry;
-import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
-
-import com.sun.j3d.utils.geometry.Box;
 
 public class MenuItemBehavior extends Behavior {
 	static Bartender bartender;
@@ -28,6 +20,7 @@ public class MenuItemBehavior extends Behavior {
 	protected BoundingBox mybox;
 	
 	static boolean selectionMutex = false;
+	boolean selected = false;
 	
 	MenuItem menuItem;
 	
@@ -62,11 +55,26 @@ public class MenuItemBehavior extends Behavior {
 			while (criteria.hasMoreElements()) {
 				genericEvt = (WakeupCriterion) criteria.nextElement();
 				if (genericEvt instanceof WakeupOnCollisionEntry){
-					if (selectionMutex == false) {
-						// get selected item, put it in pointer
-						if (menuItem.isCategory) {
+					if (selected) {
+						// CANCEL
+						selected = false;
+						selectionMutex = false;
+						justVisualized = true;
+						bartender.pointer.detachModel();
+						bartender.selectedItem = null;
+						menuItem.reattachModel();
+						visualizationTimer.schedule(new TimerTask() {
+							
+							@Override
+							public void run() {
+								justVisualized = false;
+								
+							}
+						}, VISUALIZATION_TIME);
+					} else {
+						if (selectionMutex == false) {
 							justVisualized = true;
-							bartender.menuCategorySelected(menuItem.getName());
+							
 							visualizationTimer.schedule(new TimerTask() {
 								
 								@Override
@@ -75,11 +83,15 @@ public class MenuItemBehavior extends Behavior {
 									
 								}
 							}, VISUALIZATION_TIME);
-							return;
-						} else {
-							selectionMutex = true;
-							bartender.menuItemSelected(menuItem);
-							return;
+							// get selected item, put it in pointer
+							if (menuItem.isCategory) {
+								bartender.menuCategorySelected(menuItem.getName());
+								return;
+							} else {
+								selectionMutex = true;
+								selected = true;
+								bartender.menuItemSelected(menuItem);
+							}
 						}
 					}
 				}

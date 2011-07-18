@@ -170,39 +170,10 @@ public class TestViewer {
 		BranchGroup bg = new BranchGroup();
 		TransformGroup tg = new TransformGroup();
 		Transform3D t3d = new Transform3D();
-		t3d.setScale(2);
+		t3d.setScale(4);
 		tg.setTransform(t3d);
 
-		BottleObject model = new BottleObject();
-//		model = ModelFactory.loadVRMLModel("Umbrella.wrl");
-//		final GlassObject model = new GlassObject();
-//		TransformableObject to = new TransformableObject();
-//		to.addChild(model);
-		
-//		Behavior beh = new Behavior() {
-//			boolean pressed = true;
-//
-//			@Override
-//			public void initialize() {
-//				wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
-//				
-//			}
-//
-//			@Override
-//			public void processStimulus(Enumeration arg0) {
-//				System.out.println("understood");
-//				pressed = !pressed;
-//				if (pressed)
-//					model.doSuccessAnimation();
-//				else
-//					model.reset();
-//				wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
-//			}
-//			
-//		};
-//		bg.addChild(beh);
-//		beh.setSchedulingBounds(new BoundingSphere());
-		model.setBottleAppearance(new BlueAppearance());
+		CancelObject model = new CancelObject();
 		tg.addChild(model);
 		bg.addChild(tg);
 		exercise1.addObject(bg);

@@ -9,6 +9,11 @@ import javax.media.j3d.TransformGroup;
 import javax.vecmath.Vector3d;
 
 public class MenuItem extends TransformableObject {
+	
+	private static final double LABEL_SCALING = 0.01;
+	private static final double LABEL_BOTTOM = 0.08;
+	
+	static CancelObject cancelObject = new CancelObject();
 
 	String name;
 	Color glassColor;
@@ -65,10 +70,12 @@ public class MenuItem extends TransformableObject {
 	
 	public TransformableObject detachModel() {
 		model.detach();
+		modelGroup.addChild(cancelObject);
 		return model;
 	}
 	
 	public void reattachModel() {
+		modelGroup.removeAllChildren();
 		modelGroup.addChild(model);
 	}
 	
@@ -80,8 +87,8 @@ public class MenuItem extends TransformableObject {
 		}
 		label = new Label();
 		label.setText(labelText);
-		setLabelScaling(0.01);
-		setLabelBottom(0.06);
+		setLabelScaling(LABEL_SCALING);
+		setLabelBottom(LABEL_BOTTOM);
 		labelGroup.addChild(label);
 		transGroup.addChild(labelGroup);
 	}
