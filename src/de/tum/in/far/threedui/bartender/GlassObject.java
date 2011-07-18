@@ -181,7 +181,15 @@ public class GlassObject extends TransformableObject {
 		globalTo.addChild(animationTo);
 	}
 	
+	public void doFailAnimation() {
+		Transform3D t3d = new Transform3D();
+		t3d.rotZ(Math.PI/2);
+		t3d.setTranslation(new Vector3d(0,DIAMETER_OUTER/2,0));
+		globalTo.setTransform(t3d);
+	}
+	
 	public void reset() {
+		globalTo.setTransform(new Transform3D());
 		globalTo.removeAllChildren();
 		globalTo.addChild(globalGlassTo);
 		setTransparent();

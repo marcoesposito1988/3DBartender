@@ -1,11 +1,15 @@
 package de.tum.in.far.threedui.bartender;
 
+import java.io.FileNotFoundException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.media.j3d.BranchGroup;
 
+import sun.audio.AudioPlayer;
+
 import de.tum.in.far.threedui.bartender.Recipe.Status;
+import de.tum.in.far.threedui.bartender.SoundPlayer.SoundType;
 
 public class Bartender {
 	private static final long END_WAIT = 3000;
@@ -87,6 +91,12 @@ public class Bartender {
 	void itemPoured() {
 		String ingredient = selectedItem.getName();
 		currentStatus.addIngredient(ingredient);
+		try {
+			SoundPlayer.playSound(SoundType.POUR);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		glass.pourStuff(selectedItem.glassColor);
 		pointer.detachModel();
 		selectedItem.behavior.selected = false;
@@ -99,13 +109,27 @@ public class Bartender {
 		if (status == Status.COMPLETE) {
 			// do success animation
 			System.out.println("SUCCESS!!");
+			try {
+				SoundPlayer.playSound(SoundType.SUCCESS);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			glass.doSuccessAnimation();
-			ubitrackManager.viewer.setMessageText("SUCCESS!");
+			ubitrackManager.viewer.setMessageText("Cheers!");
 		}
 		if (status == Status.WRONG) {
 			// do fail animation
 			System.out.println("FAIL!!!");
-			ubitrackManager.viewer.setMessageText("FAIL");
+			glass.doFailAnimation();
+			try {
+//				SoundPlayer.stopSound(SoundType.POUR);
+				SoundPlayer.playSound(SoundType.FAIL);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ubitrackManager.viewer.setMessageText("I wouldn't drink that...");
 		}
 		if (status == Status.COMPLETE || status == Status.WRONG) {
 			endTimer.schedule(new TimerTask(){

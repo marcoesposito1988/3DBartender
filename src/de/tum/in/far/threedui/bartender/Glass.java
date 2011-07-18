@@ -27,7 +27,7 @@ public class Glass extends WorkbenchItem {
 	}
 	
 	public void doFailAnimation() {
-		// TODO Anke: make the glass fall (use animationGroup)
+		model.doFailAnimation();
 	}
 	
 	public Glass() {
